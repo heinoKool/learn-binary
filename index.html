@@ -17,21 +17,26 @@
         rel="stylesheet">
 
     <style>
+        /* --- 1. Variables & Theme --- */
         :root {
+            /* Palette */
             --c-primary: #00FA9A;
             --c-secondary: #111111;
             --c-accent: #00FA9A;
             --c-white: #ffffff;
+
+            /* Logic */
             --bit-off: #ffffff;
             --bit-on: var(--c-primary);
 
-            /* Bootstrap Override */
+            /* Bootstrap Overrides */
             --bs-primary: #1d00fa;
             --bs-primary-rgb: 29, 0, 250;
             --bs-link-color: #1d00fa;
             --bs-link-hover-color: #1500b3;
         }
 
+        /* --- 2. Base & Typography --- */
         body {
             background-color: var(--c-white);
             color: var(--c-secondary);
@@ -46,7 +51,6 @@
             }
         }
 
-        /* Typography */
         h1,
         h2,
         h3,
@@ -58,13 +62,38 @@
             letter-spacing: -0.5px;
         }
 
-        /* Components */
+        .text-c-primary {
+            color: var(--c-primary) !important;
+        }
+
+        .text-c-accent {
+            color: var(--c-accent) !important;
+        }
+
+        /* --- 3. Components --- */
+
+        /* Cards */
         .card {
             border: 2px solid var(--c-secondary);
             box-shadow: 4px 4px 0px var(--c-secondary);
             border-radius: 8px;
         }
 
+        .card-exkurs {
+            border-left: 8px solid var(--c-accent) !important;
+        }
+
+        .card-praxis {
+            border-left: 8px solid var(--c-secondary) !important;
+        }
+
+        /* Merksatz Card (Refactored) */
+        .card-merke {
+            background-color: var(--c-primary);
+            border: 2px solid var(--c-secondary);
+        }
+
+        /* Header */
         .hero-header {
             background-color: var(--c-secondary);
             color: var(--c-primary);
@@ -88,7 +117,7 @@
             font-size: clamp(0.9rem, 3vw, 1.25rem);
         }
 
-        /* Sidebar */
+        /* --- 4. Navigation --- */
         .bd-sidebar {
             background-color: var(--c-white);
         }
@@ -102,7 +131,6 @@
             }
         }
 
-        /* Navigation Container */
         .bd-links {
             padding: 0.5rem;
         }
@@ -111,20 +139,18 @@
             font-weight: 800;
             text-transform: uppercase;
             margin-bottom: 0.75rem;
-            color: var(--c-secondary);
+            color: var(--c-white);
             padding: 0.5rem 0.75rem;
             font-size: 0.7rem;
             letter-spacing: 2px;
             margin-top: 1rem;
             background: linear-gradient(90deg, var(--c-secondary) 0%, transparent 100%);
-            color: var(--c-white);
             border-radius: 4px;
         }
 
-        /* Nav Links - Base State */
+        /* Nav Items */
         .bd-links .nav-link {
-            padding: 0.875rem 1rem;
-            padding-left: 3rem;
+            padding: 0.875rem 1rem 0.875rem 3rem;
             margin-bottom: 0.375rem;
             color: var(--c-secondary);
             background-color: #f8f9fa;
@@ -139,7 +165,6 @@
             text-decoration: none;
         }
 
-        /* Step Number Circle */
         .bd-links .nav-link::before {
             content: attr(data-step);
             position: absolute;
@@ -160,7 +185,6 @@
             transition: all 0.15s ease;
         }
 
-        /* Hover State */
         .bd-links .nav-link:hover {
             background-color: var(--c-secondary);
             color: var(--c-primary);
@@ -175,7 +199,6 @@
             color: var(--c-secondary);
         }
 
-        /* Active State */
         .bd-links .nav-link.active {
             background-color: var(--c-primary);
             color: var(--c-secondary);
@@ -196,13 +219,13 @@
             box-shadow: 4px 4px 0px var(--c-secondary);
         }
 
-        /* Exkurs Style - Smaller, Subtle */
+        /* Nav Exkurs */
         .bd-links .nav-link.nav-exkurs {
             background-color: #e8f4fc;
             border-color: var(--c-accent);
             border-style: dashed;
             font-size: 0.85rem;
-            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            padding-left: 2.75rem;
         }
 
         .bd-links .nav-link.nav-exkurs::before {
@@ -228,8 +251,8 @@
         }
 
         .bd-links .nav-link.nav-exkurs.active::before {
-            content: '✓';
             background-color: var(--c-secondary);
+            content: '✓';
         }
 
         /* Mobile Nav */
@@ -255,7 +278,7 @@
             color: var(--c-secondary);
         }
 
-        /* Bits UI */
+        /* --- 5. Interactive Elements (Bits) --- */
         .bit {
             width: 50px;
             height: 50px;
@@ -310,7 +333,7 @@
             font-weight: bold;
         }
 
-        /* Buttons & Inputs */
+        /* --- 6. Buttons & Inputs --- */
         .btn {
             font-family: 'Inter', sans-serif;
             letter-spacing: -0.02em;
@@ -353,6 +376,7 @@
             box-shadow: 2px 2px 0px var(--c-secondary);
         }
 
+        /* Helper classes for JS-toggled states */
         .btn-success {
             background-color: var(--c-primary) !important;
             border-color: var(--c-secondary) !important;
@@ -369,6 +393,7 @@
             font-weight: 700;
         }
 
+        /* Inputs */
         .decimal-input {
             width: 100%;
             min-width: 45px;
@@ -385,18 +410,15 @@
             box-shadow: none;
         }
 
-        /* Specific Styles */
-        .card-exkurs {
-            border-left: 8px solid var(--c-accent) !important;
+        .b2d-input-custom {
+            max-width: none;
+            min-width: 150px;
         }
 
+        /* --- 7. Specific Exercises & Utils --- */
         .bg-purple-light {
             background-color: #f8f9fa !important;
             border: 2px solid var(--c-secondary) !important;
-        }
-
-        .card-praxis {
-            border-left: 8px solid var(--c-secondary) !important;
         }
 
         .network-box {
@@ -472,7 +494,33 @@
             color: var(--c-accent);
         }
 
-        /* Animation */
+        .letter-spacing-3 {
+            letter-spacing: 3px;
+        }
+
+        .b2d-hint-text {
+            font-size: 0.4em;
+            line-height: 1;
+        }
+
+        .table-min-300 {
+            min-width: 300px;
+        }
+
+        .table-min-600 {
+            min-width: 600px;
+        }
+
+        .result-box {
+            background-color: #f8f9fa;
+        }
+
+        .b2d-question-text {
+            font-size: clamp(2rem, 5vw, 3rem);
+            letter-spacing: 3px;
+        }
+
+        /* --- 8. Animation & Modals --- */
         .fade-in {
             animation: fadeIn 0.3s ease-in;
         }
@@ -508,6 +556,7 @@
             border-top: 2px solid var(--c-secondary);
         }
 
+        /* Alerts */
         .alert {
             border: 2px solid var(--c-secondary);
             color: var(--c-secondary);
@@ -581,8 +630,8 @@
                     <!-- Exkurs Content -->
                     <div class="card card-exkurs mb-4">
                         <div class="card-body p-3 p-md-4">
-                            <h2 class="h3 card-title mb-3"><i class="bi bi-info-circle-fill me-2"
-                                    style="color: var(--c-accent);"></i>Intro: Dezimalsystem</h2>
+                            <h2 class="h3 card-title mb-3"><i
+                                    class="bi bi-info-circle-fill me-2 text-c-accent"></i>Intro: Dezimalsystem</h2>
 
                             <p>Wir nutzen das <strong>Dezimalsystem</strong> (<span class="term"
                                     data-bs-toggle="tooltip" title="0-9">Basis 10</span>). Jede Stelle ist 10-mal mehr
@@ -591,8 +640,8 @@
                             <div class="bg-purple-light p-2 p-md-3 rounded-3 mb-4 overflow-hidden">
                                 <p class="text-center mb-3 fw-bold">Trage Ziffern (0-9) ein:</p>
                                 <div class="table-responsive">
-                                    <table class="table table-borderless text-center align-middle decimal-table mb-0"
-                                        style="min-width: 300px;">
+                                    <table
+                                        class="table table-borderless text-center align-middle decimal-table mb-0 table-min-300">
                                         <tbody id="decimalTableBody"></tbody>
                                     </table>
                                 </div>
@@ -612,8 +661,7 @@
                             </p>
 
                             <!-- Merksatz -->
-                            <div class="card mb-4"
-                                style="background-color: var(--c-primary); border: 2px solid var(--c-secondary);">
+                            <div class="card mb-4 card-merke">
                                 <div class="card-body py-3">
                                     <p class="mb-2 fw-bold">📌 Merke:</p>
                                     <p class="mb-0">Dezimal: Jede Stelle ist <strong>10×</strong> mehr wert (Basis
@@ -683,13 +731,13 @@
                                                 title="Least Significant Bit">LSB</span>)</small>
                                     </div>
                                     <div class="table-responsive my-4">
-                                        <table class="table table-borderless text-center align-middle" id="pvTable"
-                                            style="min-width: 600px;"></table>
+                                        <table class="table table-borderless text-center align-middle table-min-600"
+                                            id="pvTable"></table>
                                     </div>
                                     <div class="d-md-none text-center text-muted small mb-2"><i
                                             class="bi bi-arrow-left-right"></i> Wischen</div>
-                                    <div class="p-3 rounded-3 text-center border border-2 border-dark mb-4 d-flex align-items-center justify-content-center gap-2"
-                                        style="background-color: #fff;">
+                                    <div
+                                        class="p-3 rounded-3 text-center border border-2 border-dark mb-4 d-flex align-items-center justify-content-center gap-2 bg-purple-light">
                                         <span>Dezimalwert:</span> <span id="visualResult" class="fw-bold fs-2">0</span>
                                     </div>
                                 </div>
@@ -746,12 +794,12 @@
                                     <h4 class="h6 text-uppercase text-muted mb-3">Übungs-Generator</h4>
                                     <p>Übersetze:</p>
                                     <div id="b2d-question"
-                                        class="display-4 fw-bold font-monospace mb-3 letter-spacing-3"
-                                        style="font-size: clamp(2rem, 5vw, 3rem);">00000000</div>
+                                        class="display-4 fw-bold font-monospace mb-3 letter-spacing-3 b2d-question-text">
+                                        00000000</div>
                                     <div class="row justify-content-center g-2">
                                         <div class="col-12 col-sm-auto"><input type="number" id="b2d-input"
-                                                class="form-control form-control-lg text-center decimal-input w-100"
-                                                placeholder="Dezimal..." style="max-width:none; min-width:150px;"></div>
+                                                class="form-control form-control-lg text-center decimal-input w-100 b2d-input-custom"
+                                                placeholder="Dezimal..."></div>
                                         <div class="col-6 col-sm-auto"><button class="btn btn-primary btn-lg w-100"
                                                 id="btnCheckB2D">Prüfen</button></div>
                                         <div class="col-3 col-sm-auto"><button
@@ -874,8 +922,7 @@
 
                                     <div class="d-inline-block p-3 rounded bg-white border border-2 border-dark mb-3">
                                         <div class="small text-uppercase fw-bold">Ziel</div>
-                                        <div id="targetDecimal" class="display-3 fw-bold"
-                                            style="color: var(--c-secondary);">0</div>
+                                        <div id="targetDecimal" class="display-3 fw-bold text-c-secondary">0</div>
                                     </div>
 
                                     <div class="d-flex justify-content-center flex-wrap gap-2 mb-3" id="gameBits"></div>
@@ -937,8 +984,7 @@
                             <h2 class="h3 card-title mb-3">4. Praxis: IP-Adressen</h2>
 
                             <!-- Bits & Bytes Erklärung -->
-                            <div class="card mb-4"
-                                style="background-color: #f8f9fa; border: 2px solid var(--c-secondary);">
+                            <div class="card mb-4 bg-purple-light">
                                 <div class="card-body">
                                     <h5 class="fw-bold mb-3">📦 Bits und Bytes – Die Grundbausteine</h5>
 
@@ -954,7 +1000,7 @@
                                         <div class="col-md-6">
                                             <div class="p-3 bg-white rounded border border-2 border-dark text-center">
                                                 <div class="fw-bold mb-2">1 Byte = 8 Bits</div>
-                                                <div class="font-monospace" style="letter-spacing: 2px;">
+                                                <div class="font-monospace letter-spacing-2">
                                                     <span class="badge bg-dark">0</span>
                                                     <span class="badge bg-dark">0</span>
                                                     <span class="badge bg-dark">0</span>
@@ -968,10 +1014,10 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="p-3 rounded border border-2 border-dark text-center"
-                                                style="background-color: var(--c-primary);">
+                                            <div
+                                                class="p-3 rounded border border-2 border-dark text-center bg-c-primary">
                                                 <div class="fw-bold mb-2">1 Byte = 8 Bits</div>
-                                                <div class="font-monospace" style="letter-spacing: 2px;">
+                                                <div class="font-monospace letter-spacing-2">
                                                     <span class="badge bg-dark">1</span>
                                                     <span class="badge bg-dark">1</span>
                                                     <span class="badge bg-dark">1</span>
@@ -997,7 +1043,7 @@
                             </div>
 
                             <!-- IP-Adressen Erklärung -->
-                            <div class="card mb-4" style="border: 2px solid var(--c-accent);">
+                            <div class="card mb-4 border-c-accent">
                                 <div class="card-body">
                                     <h5 class="fw-bold mb-3">🌐 Was ist eine IP-Adresse?</h5>
 
@@ -1013,8 +1059,7 @@
                                     <div class="bg-light p-3 rounded mb-3">
                                         <div class="text-center mb-2 fw-bold">Beispiel: 192.168.178.1</div>
                                         <div class="table-responsive">
-                                            <table class="table table-sm table-bordered text-center mb-0"
-                                                style="font-size: 0.85rem;">
+                                            <table class="table table-sm table-bordered text-center mb-0 fs-085">
                                                 <thead class="table-dark">
                                                     <tr>
                                                         <th>Oktett 1</th>
@@ -1047,8 +1092,7 @@
                             </div>
 
                             <!-- Aufgaben-Einleitung -->
-                            <div class="alert mb-4"
-                                style="background-color: var(--c-primary); border: 3px solid var(--c-secondary);">
+                            <div class="alert mb-4 alert-task">
                                 <h5 class="fw-bold mb-2">🎯 Praxisaufgabe: IP-Adresse einstellen</h5>
                                 <p class="mb-0">Nutze die Bit-Schalter, um das letzte Oktett der IP-Adresse auf den
                                     geforderten Dezimalwert einzustellen. Klicke auf die Bits (0/1), um den Wert zu
@@ -1147,36 +1191,83 @@
     <script>
         'use strict';
 
-        // --- Application Module ---
+        /**
+         * Binary Learning App
+         * Structured using Module Pattern
+         */
         const app = (function () {
-            // State
-            let b2dTarget = 0;
-            let gameTarget = 0;
-            let ipTarget = 0;
 
-            const visualBits = [0, 0, 0, 0, 0, 0, 0, 0];
+            // --- 1. Configuration & Constants ---
+            const CONFIG = {
+                BITS_COUNT: 8,
+                MAX_VALUE: 255,
+                ANIMATION_DURATION: 300,
+                SELECTORS: {
+                    SIDEBAR: '#bdSidebar',
+                    CHAPTERS: '.chapter-section',
+                    NAV_LINKS: '.nav-link',
+                    TOOLTIPS: '[data-bs-toggle="tooltip"]'
+                }
+            };
 
-            // --- UI Updating ---
+            // --- 2. Application State ---
+            const state = {
+                b2dTarget: 0,
+                gameTarget: 0,
+                ipTarget: 0,
+                visualBits: Array(CONFIG.BITS_COUNT).fill(0)
+            };
 
+            // --- 3. Utility Functions ---
+            const dom = {
+                get: (id) => document.getElementById(id),
+                getAll: (sel) => document.querySelectorAll(sel),
+                setHtml: (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; },
+                setText: (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; },
+                showModal: (content) => {
+                    dom.setHtml('infoContent', content);
+                    new bootstrap.Modal(dom.get('infoModal')).show();
+                }
+            };
 
-            function showModal(content) {
-                document.getElementById('infoContent').innerHTML = content;
-                new bootstrap.Modal(document.getElementById('infoModal')).show();
-            }
+            const helpers = {
+                getRandomInt: (max) => Math.floor(Math.random() * max),
+                getModuloHtml: (targetVal) => {
+                    if (targetVal === 0) return "<p>0 : 2 = 0 Rest 0</p>";
+                    let html = `<p><strong>Restwertverfahren</strong>:</p>
+                               <table class="table table-sm"><thead><tr><th>Rechnung</th><th class="text-end">Rest</th></tr></thead><tbody>`;
+                    let temp = targetVal;
+                    let steps = [];
+                    while (temp > 0) {
+                        let r = temp % 2;
+                        let q = Math.floor(temp / 2);
+                        steps.push({ v: temp, q: q, r: r });
+                        temp = q;
+                    }
+                    steps.forEach(s => html += `<tr><td>${s.v} : 2 = ${s.q}</td><td class="text-end fw-bold text-primary">${s.r}</td></tr>`);
+                    html += `</tbody></table>
+                            <div class="alert alert-dark text-center fw-bold fs-4 letter-spacing-3">${steps.map(s => s.r).reverse().join('')}</div>`;
+                    return html;
+                }
+            };
 
-            // --- Navigation ---
+            // --- 4. Core Logic & Components ---
+
+            // Navigation
             function showChapter(chapterId) {
                 // Handle Mobile Offcanvas
-                const sidebarEl = document.getElementById('bdSidebar');
-                const bsOffcanvas = bootstrap.Offcanvas.getInstance(sidebarEl);
-                if (bsOffcanvas) bsOffcanvas.hide();
+                const sidebarEl = dom.get('bdSidebar');
+                if (sidebarEl) {
+                    const bsOffcanvas = bootstrap.Offcanvas.getInstance(sidebarEl);
+                    if (bsOffcanvas) bsOffcanvas.hide();
+                }
 
                 // Toggle Sections
-                document.querySelectorAll('.chapter-section').forEach(sec => sec.classList.add('d-none'));
-                document.getElementById(chapterId)?.classList.remove('d-none');
+                dom.getAll(CONFIG.SELECTORS.CHAPTERS).forEach(sec => sec.classList.add('d-none'));
+                dom.get(chapterId)?.classList.remove('d-none');
 
                 // Update Nav Active State
-                document.querySelectorAll('.nav-link').forEach(link => {
+                dom.getAll(CONFIG.SELECTORS.NAV_LINKS).forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('data-target') === chapterId) link.classList.add('active');
                 });
@@ -1184,42 +1275,15 @@
                 window.scrollTo(0, 0);
             }
 
-            // --- Quiz Logic (Delegated Event) ---
-            function initQuizListeners() {
-                document.querySelectorAll('.quiz-group').forEach(group => {
-                    group.addEventListener('click', (e) => {
-                        if (e.target.matches('button')) {
-                            const btn = e.target;
-                            const correct = btn.getAttribute('data-correct');
-                            const val = btn.getAttribute('data-val');
-                            const exp = btn.getAttribute('data-exp') || '';
-                            const feedbackEl = group.querySelector('.feedback');
-
-                            // Reset buttons
-                            group.querySelectorAll('button').forEach(b => b.className = 'btn btn-outline-primary w-100');
-
-                            if (val === correct) {
-                                let successMsg = '<div class="alert alert-success py-2 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Richtig!';
-                                if (exp) successMsg += ' ' + exp;
-                                successMsg += '</div>';
-                                feedbackEl.innerHTML = successMsg;
-                                btn.className = 'btn btn-success w-100';
-                            } else {
-                                feedbackEl.innerHTML = `<div class="alert alert-danger py-2 mb-0 fw-bold"><i class="bi bi-x-circle-fill me-2"></i>Falsch. ${exp}</div>`;
-                                btn.className = 'btn btn-danger w-100';
-                            }
-                        }
-                    });
-                });
-            }
-
-            // --- Component: Interactive Bits ---
+            // Interactive Bits Component
             function renderBits(containerId, count, callback) {
-                const container = document.getElementById(containerId);
-                container.innerHTML = '';
-                const state = new Array(count).fill(0);
+                const container = dom.get(containerId);
+                if (!container) return;
 
-                for (let i = count - 1; i >= 0; i--) { // MSB left
+                container.innerHTML = '';
+                const bitsState = new Array(count).fill(0);
+
+                for (let i = count - 1; i >= 0; i--) { // MSB to LSB
                     const wrapper = document.createElement('div');
                     wrapper.className = 'bit-wrapper';
 
@@ -1230,278 +1294,282 @@
                     const bit = document.createElement('div');
                     bit.className = 'bit shadow-sm';
                     bit.innerText = '0';
-                    bit.setAttribute('role', 'button');
-                    bit.setAttribute('tabindex', '0');
+                    Object.assign(bit, { role: 'button', tabIndex: 0 });
                     bit.setAttribute('aria-pressed', 'false');
 
                     const toggle = () => {
-                        state[i] = state[i] ? 0 : 1;
+                        bitsState[i] = bitsState[i] ? 0 : 1;
                         bit.classList.toggle('active');
-                        bit.innerText = state[i];
-                        bit.setAttribute('aria-pressed', state[i] ? 'true' : 'false');
-                        callback(state);
+                        bit.innerText = bitsState[i];
+                        bit.setAttribute('aria-pressed', bitsState[i]);
+                        callback(bitsState);
                     };
 
                     bit.addEventListener('click', toggle);
-                    bit.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault(); toggle();
-                        }
-                    });
+                    bit.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
 
                     wrapper.append(label, bit);
                     container.appendChild(wrapper);
                 }
-                return state;
             }
 
-            // --- Decimal Table Exkurs ---
-            function initDecimalTable() {
-                const tbody = document.getElementById('decimalTableBody');
-                const powers = [3, 2, 1, 0];
-                const labels = ['1000', '100', '10', '1'];
-                const defaults = [2, 5, 3, 0];
+            // Sub-Modules
+            const modules = {
+                visualization: {
+                    init: () => {
+                        const table = dom.get('pvTable');
+                        if (!table) return;
 
-                let html = `<tr>`;
-                powers.forEach(p => html += `<th><div class="pv-cell-power">10<sup>${p}</sup></div></th>`);
-                html += `</tr><tr>`;
-                labels.forEach(l => html += `<td><div class="pv-cell-value">${l}</div></td>`);
-                html += `</tr><tr>`;
+                        let html = `<thead><tr>`;
+                        for (let i = 7; i >= 0; i--) html += `<th><div class="pv-cell-power">2<sup>${i}</sup></div></th>` + (i > 0 ? `<th></th>` : ``);
+                        html += `</tr></thead><tbody><tr>`;
+                        for (let i = 7; i >= 0; i--) html += `<td><div class="pv-cell-value">${Math.pow(2, i)}</div></td>` + (i > 0 ? `<td class="table-spacer"></td>` : ``);
+                        html += `</tr><tr>`;
+                        for (let i = 7; i >= 0; i--) html += `<td><div class="pv-switch mx-auto" role="button" tabindex="0" data-idx="${i}">0</div></td>` + (i > 0 ? `<td class="table-spacer"></td>` : ``);
+                        html += `</tr><tr>`;
+                        for (let i = 7; i >= 0; i--) html += `<td class="breakdown-cell small" id="vis-calc-${i}"></td>` + (i > 0 ? `<td class="plus-sign">+</td>` : ``);
+                        html += `</tr></tbody>`;
+                        table.innerHTML = html;
 
-                powers.forEach((p, i) => {
-                    html += `<td><input type="number" class="form-control decimal-input mx-auto" 
-                             id="dec-input-${p}" value="${defaults[i]}" min="0" max="9"></td>`;
-                });
-                html += `</tr><tr>`;
-                powers.forEach((p, i) => {
-                    html += `<td class="breakdown-cell small text-muted" id="dec-calc-${p}"></td>`;
-                });
-                html += `</tr>`;
-                tbody.innerHTML = html;
-
-                // Add Spacers Logic (Simplified in CSS for this version, handled by flex/table layout)
-                // Just attaching listeners
-                powers.forEach(p => {
-                    document.getElementById(`dec-input-${p}`).addEventListener('input', updateDecimalTable);
-                });
-                updateDecimalTable();
-            }
-
-            function updateDecimalTable() {
-                let total = 0;
-                [3, 2, 1, 0].forEach(p => {
-                    const input = document.getElementById(`dec-input-${p}`);
-                    let val = parseInt(input.value) || 0;
-                    if (input.value.length > 1) { val = parseInt(input.value.slice(0, 1)); input.value = val; }
-
-                    const placeVal = Math.pow(10, p);
-                    document.getElementById(`dec-calc-${p}`).innerText = `${val} × ${placeVal}`;
-                    total += val * placeVal;
-                });
-                document.getElementById('decimalResult').innerText = `Ergebnis: ${total}`;
-            }
-
-            // --- Chapter 1: Visualization ---
-            function initVisualization() {
-                const table = document.getElementById('pvTable');
-                let html = `<thead><tr>`;
-                for (let i = 7; i >= 0; i--) html += `<th><div class="pv-cell-power">2<sup>${i}</sup></div></th>` + (i > 0 ? `<th></th>` : ``);
-                html += `</tr></thead><tbody><tr>`;
-                for (let i = 7; i >= 0; i--) html += `<td><div class="pv-cell-value">${Math.pow(2, i)}</div></td>` + (i > 0 ? `<td class="table-spacer"></td>` : ``);
-                html += `</tr><tr>`;
-                for (let i = 7; i >= 0; i--) html += `<td><div class="pv-switch mx-auto" role="button" tabindex="0" data-idx="${i}">0</div></td>` + (i > 0 ? `<td class="table-spacer"></td>` : ``);
-                html += `</tr><tr>`;
-                for (let i = 7; i >= 0; i--) html += `<td class="breakdown-cell small" id="vis-calc-${i}"></td>` + (i > 0 ? `<td class="plus-sign">+</td>` : ``);
-                html += `</tr></tbody>`;
-                table.innerHTML = html;
-
-                document.querySelectorAll('.pv-switch').forEach(btn => {
-                    const idx = btn.getAttribute('data-idx');
-                    const toggle = () => {
-                        visualBits[idx] = visualBits[idx] ? 0 : 1;
-                        btn.classList.toggle('active');
-                        btn.innerText = visualBits[idx];
-                        updateVisCalc();
-                    };
-                    btn.addEventListener('click', toggle);
-                    btn.addEventListener('keydown', (e) => { if (e.key === 'Enter') toggle(); });
-                });
-                updateVisCalc();
-            }
-
-            function updateVisCalc() {
-                let sum = 0;
-                visualBits.forEach((bit, i) => {
-                    const val = Math.pow(2, i);
-                    const el = document.getElementById(`vis-calc-${i}`);
-                    if (bit) {
-                        sum += val;
-                        el.innerHTML = `<span class="fw-bold" style="color:var(--c-primary)">1 × ${val}</span>`;
-                    } else {
-                        el.innerHTML = `<span class="text-muted opacity-50">0 × ${val}</span>`;
-                    }
-                });
-                document.getElementById('visualResult').innerText = sum;
-            }
-
-            // --- Chapter 2: B2D ---
-            function initB2D() {
-                b2dTarget = Math.floor(Math.random() * 255);
-                const binStr = b2dTarget.toString(2).padStart(8, '0');
-
-                // Visual Rendering with Place Values
-                let html = '<div class="d-flex justify-content-center gap-1 gap-md-2">';
-                for (let i = 0; i < 8; i++) {
-                    const val = Math.pow(2, 7 - i);
-                    html += `
-                        <div class="text-center">
-                            <div class="small text-muted b2d-hint d-none opacity-50" style="font-size: 0.4em; line-height: 1;">${val}</div>
-                            <div class="font-monospace fw-bold">${binStr[i]}</div>
-                        </div>`;
-                }
-                html += '</div>';
-
-                document.getElementById('b2d-question').innerHTML = html;
-                document.getElementById('b2d-input').value = '';
-                document.getElementById('b2d-feedback').innerHTML = '';
-            }
-
-            // --- Chapter 3: Game ---
-            function initGame() {
-                gameTarget = Math.floor(Math.random() * 255) + 1;
-                document.getElementById('targetDecimal').innerText = gameTarget;
-                document.getElementById('game-feedback').innerHTML = '';
-                document.getElementById('currentGameValue').innerText = '0';
-
-                renderBits('gameBits', 8, (state) => {
-                    let sum = 0;
-                    state.forEach((b, i) => { if (b) sum += Math.pow(2, i); });
-                    document.getElementById('currentGameValue').innerText = sum;
-                });
-            }
-
-            // --- Chapter 4: IP ---
-            function initIpGame() {
-                ipTarget = Math.floor(Math.random() * 254) + 1;
-                document.getElementById('targetIpOctet').innerText = ipTarget;
-                document.getElementById('requiredIpValue').innerText = ipTarget;
-                document.getElementById('currentIpValue').innerText = '0';
-                document.getElementById('ip-feedback').innerHTML = '';
-                document.getElementById('networkStatusLight').className = 'status-light bg-danger';
-                document.getElementById('statusText').innerText = "GETRENNT";
-                document.getElementById('statusText').className = "text-danger fw-bold";
-                document.getElementById('ipGameHint').innerText = "Tipp: Starte mit dem größten Bit (128).";
-                document.getElementById('ipGameHint').className = "alert alert-info py-2 small fw-bold";
-
-                renderBits('ipBits', 8, (state) => {
-                    let sum = 0;
-                    state.forEach((b, i) => { if (b) sum += Math.pow(2, i); });
-                    document.getElementById('currentIpValue').innerText = sum;
-
-                    // Scaffolding Hint
-                    const hintEl = document.getElementById('ipGameHint');
-                    const diff = ipTarget - sum;
-                    if (diff === 0) {
-                        hintEl.innerText = "Bereit! Klicke auf 'Verbinden'.";
-                        hintEl.className = "alert alert-success py-2 small fw-bold";
-                    } else if (diff > 0) {
-                        hintEl.innerText = `Dir fehlen noch: ${diff}`;
-                        hintEl.className = "alert alert-warning py-2 small fw-bold";
-                    } else {
-                        hintEl.innerText = `Du bist ${Math.abs(diff)} zu hoch!`;
-                        hintEl.className = "alert alert-danger py-2 small fw-bold";
-                    }
-                });
-            }
-
-            // --- Public API ---
-            return {
-                init: () => {
-                    // Tooltips
-                    [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(el => new bootstrap.Tooltip(el));
-
-                    // Listeners for Nav
-                    document.querySelectorAll('.nav-link').forEach(l => {
-                        l.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            showChapter(l.getAttribute('data-target'));
+                        document.querySelectorAll('.pv-switch').forEach(btn => {
+                            btn.addEventListener('click', modules.visualization.toggle);
+                            btn.addEventListener('keydown', (e) => { if (e.key === 'Enter') modules.visualization.toggle(e); });
                         });
-                    });
-
-
-
-                    // B2D
-                    document.getElementById('btnCheckB2D').addEventListener('click', () => {
-                        const input = parseInt(document.getElementById('b2d-input').value);
-                        const fb = document.getElementById('b2d-feedback');
-                        if (input === b2dTarget) {
-                            fb.innerHTML = '<span class="text-success"><i class="bi bi-check-lg"></i> Richtig!</span>';
-
-                        } else fb.innerHTML = '<span class="text-danger"><i class="bi bi-x-lg"></i> Falsch.</span>';
-                    });
-                    document.getElementById('btnNewB2D').addEventListener('click', initB2D);
-                    document.getElementById('btnHelpB2D').addEventListener('click', () => {
-                        document.querySelectorAll('.b2d-hint').forEach(el => el.classList.toggle('d-none'));
-                    });
-
-                    // Game D2B
-                    document.getElementById('btnCheckGame').addEventListener('click', () => {
-                        const current = parseInt(document.getElementById('currentGameValue').innerText);
-                        const fb = document.getElementById('game-feedback');
-                        if (current === gameTarget) {
-                            fb.innerHTML = '<span class="text-success fs-4"><i class="bi bi-check-lg"></i> Perfekt!</span>';
-
-                        } else fb.innerHTML = `<span class="text-danger">Diff: ${gameTarget - current}</span>`;
-                    });
-                    document.getElementById('btnNewGame').addEventListener('click', initGame);
-                    document.getElementById('btnHelpGame').addEventListener('click', () => {
-                        showModal(app.getModuloHtml(gameTarget));
-                    });
-
-                    // IP Game
-                    document.getElementById('btnCheckIp').addEventListener('click', () => {
-                        const current = parseInt(document.getElementById('currentIpValue').innerText);
-                        const fb = document.getElementById('ip-feedback');
-                        if (current === ipTarget) {
-                            fb.innerHTML = '<span class="text-success"><i class="bi bi-wifi"></i> Verbunden!</span>';
-                            document.getElementById('networkStatusLight').className = 'status-light bg-success';
-                            document.getElementById('statusText').innerText = "ONLINE";
-                            document.getElementById('statusText').className = "text-success fw-bold";
-
-                        } else fb.innerHTML = '<span class="text-danger">Verbindung fehlgeschlagen.</span>';
-                    });
-                    document.getElementById('btnNewIp').addEventListener('click', initIpGame);
-                    document.getElementById('btnHelpIp').addEventListener('click', () => {
-                        showModal(app.getModuloHtml(ipTarget));
-                    });
-
-                    // Initializations
-                    initDecimalTable();
-                    initVisualization();
-                    initQuizListeners();
-                    initB2D();
-                    initGame();
-                    initIpGame();
-                },
-                showChapter: showChapter,
-                getModuloHtml: (targetVal) => {
-                    if (targetVal === 0) return "<p>0 : 2 = 0 Rest 0</p>";
-                    let html = `<p><strong>Restverfahren</strong>:</p><table class="table table-sm"><thead><tr><th>Rechnung</th><th class="text-end">Rest</th></tr></thead><tbody>`;
-                    let temp = targetVal;
-                    let steps = [];
-                    while (temp > 0) {
-                        let r = temp % 2;
-                        let q = Math.floor(temp / 2);
-                        steps.push({ v: temp, q: q, r: r });
-                        temp = q;
+                        modules.visualization.update();
+                    },
+                    toggle: (e) => {
+                        const btn = e.target;
+                        const idx = btn.getAttribute('data-idx');
+                        state.visualBits[idx] = state.visualBits[idx] ? 0 : 1;
+                        btn.classList.toggle('active');
+                        btn.innerText = state.visualBits[idx];
+                        modules.visualization.update();
+                    },
+                    update: () => {
+                        let sum = 0;
+                        state.visualBits.forEach((bit, i) => {
+                            const val = Math.pow(2, i);
+                            const el = dom.get(`vis-calc-${i}`);
+                            if (bit) {
+                                sum += val;
+                                el.innerHTML = `<span class="fw-bold text-c-primary">1 × ${val}</span>`;
+                            } else {
+                                el.innerHTML = `<span class="text-muted opacity-50">0 × ${val}</span>`;
+                            }
+                        });
+                        dom.setText('visualResult', sum);
                     }
-                    steps.forEach(s => html += `<tr><td>${s.v} : 2 = ${s.q}</td><td class="text-end fw-bold text-primary">${s.r}</td></tr>`);
-                    html += `</tbody></table><div class="alert alert-dark text-center fw-bold fs-4 letter-spacing-3">${steps.map(s => s.r).reverse().join('')}</div>`;
-                    return html;
+                },
+
+                decimalTable: {
+                    init: () => {
+                        const tbody = dom.get('decimalTableBody');
+                        if (!tbody) return;
+
+                        const powers = [3, 2, 1, 0];
+                        const labels = ['1000', '100', '10', '1'];
+                        const defaults = [2, 5, 3, 0];
+
+                        let html = `<tr>`;
+                        powers.forEach(p => html += `<th><div class="pv-cell-power">10<sup>${p}</sup></div></th>`);
+                        html += `</tr><tr>`;
+                        labels.forEach(l => html += `<td><div class="pv-cell-value">${l}</div></td>`);
+                        html += `</tr><tr>`;
+                        powers.forEach((p, i) => html += `<td><input type="number" class="form-control decimal-input mx-auto" id="dec-input-${p}" value="${defaults[i]}" min="0" max="9"></td>`);
+                        html += `</tr><tr>`;
+                        powers.forEach(p => html += `<td class="breakdown-cell small text-muted" id="dec-calc-${p}"></td>`);
+                        html += `</tr>`;
+                        tbody.innerHTML = html;
+
+                        powers.forEach(p => dom.get(`dec-input-${p}`).addEventListener('input', modules.decimalTable.update));
+                        modules.decimalTable.update();
+                    },
+                    update: () => {
+                        let total = 0;
+                        [3, 2, 1, 0].forEach(p => {
+                            const input = dom.get(`dec-input-${p}`);
+                            let val = parseInt(input.value) || 0;
+                            if (input.value.length > 1) { val = parseInt(input.value.slice(0, 1)); input.value = val; }
+
+                            const placeVal = Math.pow(10, p);
+                            dom.setText(`dec-calc-${p}`, `${val} × ${placeVal}`);
+                            total += val * placeVal;
+                        });
+                        dom.setText('decimalResult', `Ergebnis: ${total}`);
+                    }
+                },
+
+                b2d: {
+                    init: () => {
+                        state.b2dTarget = helpers.getRandomInt(255);
+                        const binStr = state.b2dTarget.toString(2).padStart(8, '0');
+
+                        let html = '<div class="d-flex justify-content-center gap-1 gap-md-2">';
+                        for (let i = 0; i < 8; i++) {
+                            html += `<div class="text-center">
+                                    <div class="small text-muted b2d-hint d-none opacity-50 b2d-hint-text">${Math.pow(2, 7 - i)}</div>
+                                    <div class="font-monospace fw-bold">${binStr[i]}</div>
+                                 </div>`;
+                        }
+                        html += '</div>';
+
+                        dom.setHtml('b2d-question', html);
+                        dom.get('b2d-input').value = '';
+                        dom.setHtml('b2d-feedback', '');
+                    },
+                    check: () => {
+                        const input = parseInt(dom.get('b2d-input').value);
+                        const success = input === state.b2dTarget;
+                        dom.setHtml('b2d-feedback', success
+                            ? '<span class="text-success"><i class="bi bi-check-lg"></i> Richtig!</span>'
+                            : '<span class="text-danger"><i class="bi bi-x-lg"></i> Falsch.</span>');
+                    },
+                    toggleHint: () => dom.getAll('.b2d-hint').forEach(el => el.classList.toggle('d-none'))
+                },
+
+                game: {
+                    init: () => {
+                        state.gameTarget = helpers.getRandomInt(255) + 1;
+                        dom.setText('targetDecimal', state.gameTarget);
+                        dom.setHtml('game-feedback', '');
+                        dom.setText('currentGameValue', '0');
+
+                        renderBits('gameBits', 8, (bits) => {
+                            let sum = 0;
+                            bits.forEach((b, i) => { if (b) sum += Math.pow(2, i); });
+                            dom.setText('currentGameValue', sum);
+                        });
+                    },
+                    check: () => {
+                        const current = parseInt(dom.get('currentGameValue').innerText);
+                        const diff = state.gameTarget - current;
+                        dom.setHtml('game-feedback', diff === 0
+                            ? '<span class="text-success fs-4"><i class="bi bi-check-lg"></i> Perfekt!</span>'
+                            : `<span class="text-danger">Diff: ${diff}</span>`);
+                    }
+                },
+
+                ip: {
+                    init: () => {
+                        state.ipTarget = helpers.getRandomInt(254) + 1;
+                        dom.setText('targetIpOctet', state.ipTarget);
+                        dom.setText('requiredIpValue', state.ipTarget);
+                        dom.setText('currentIpValue', '0');
+                        dom.setHtml('ip-feedback', '');
+
+                        dom.get('networkStatusLight').className = 'status-light bg-danger';
+                        dom.setText('statusText', "GETRENNT");
+                        dom.get('statusText').className = "text-danger fw-bold";
+
+                        const hint = dom.get('ipGameHint');
+                        hint.innerText = "Tipp: Starte mit dem größten Bit (128).";
+                        hint.className = "alert alert-info py-2 small fw-bold";
+
+                        renderBits('ipBits', 8, (bits) => {
+                            let sum = 0;
+                            bits.forEach((b, i) => { if (b) sum += Math.pow(2, i); });
+                            dom.setText('currentIpValue', sum);
+
+                            // Dynamic Hint
+                            const diff = state.ipTarget - sum;
+                            if (diff === 0) {
+                                hint.innerText = "Bereit! Klicke auf 'Verbinden'.";
+                                hint.className = "alert alert-success py-2 small fw-bold";
+                            } else if (diff > 0) {
+                                hint.innerText = `Dir fehlen noch: ${diff}`;
+                                hint.className = "alert alert-warning py-2 small fw-bold";
+                            } else {
+                                hint.innerText = `Du bist ${Math.abs(diff)} zu hoch!`;
+                                hint.className = "alert alert-danger py-2 small fw-bold";
+                            }
+                        });
+                    },
+                    check: () => {
+                        const current = parseInt(dom.get('currentIpValue').innerText);
+                        if (current === state.ipTarget) {
+                            dom.setHtml('ip-feedback', '<span class="text-success"><i class="bi bi-wifi"></i> Verbunden!</span>');
+                            dom.get('networkStatusLight').className = 'status-light bg-success';
+                            dom.setText('statusText', "ONLINE");
+                            dom.get('statusText').className = "text-success fw-bold";
+                        } else {
+                            dom.setHtml('ip-feedback', '<span class="text-danger">Verbindung fehlgeschlagen.</span>');
+                        }
+                    }
                 }
+            };
+
+            // --- 5. Event Initialization ---
+            function bindEvents() {
+                // Nav Events
+                dom.getAll(CONFIG.SELECTORS.NAV_LINKS).forEach(l => {
+                    l.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showChapter(l.getAttribute('data-target'));
+                    });
+                });
+
+                // Quiz Events (Delegation)
+                document.querySelectorAll('.quiz-group').forEach(group => {
+                    group.addEventListener('click', (e) => {
+                        if (e.target.matches('button')) {
+                            const btn = e.target;
+                            const correct = btn.getAttribute('data-correct');
+                            const val = btn.getAttribute('data-val');
+                            const exp = btn.getAttribute('data-exp') || '';
+                            const feedbackEl = group.querySelector('.feedback');
+
+                            // UI Reset
+                            group.querySelectorAll('button').forEach(b => b.className = 'btn btn-outline-primary w-100');
+
+                            if (val === correct) {
+                                feedbackEl.innerHTML = `<div class="alert alert-success py-2 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Richtig! ${exp}</div>`;
+                                btn.className = 'btn btn-success w-100';
+                            } else {
+                                feedbackEl.innerHTML = `<div class="alert alert-danger py-2 mb-0 fw-bold"><i class="bi bi-x-circle-fill me-2"></i>Falsch. ${exp}</div>`;
+                                btn.className = 'btn btn-danger w-100';
+                            }
+                        }
+                    });
+                });
+
+                // Module Events
+                dom.get('btnCheckB2D').addEventListener('click', modules.b2d.check);
+                dom.get('btnNewB2D').addEventListener('click', modules.b2d.init);
+                dom.get('btnHelpB2D').addEventListener('click', modules.b2d.toggleHint);
+
+                dom.get('btnCheckGame').addEventListener('click', modules.game.check);
+                dom.get('btnNewGame').addEventListener('click', modules.game.init);
+                dom.get('btnHelpGame').addEventListener('click', () => dom.showModal(helpers.getModuloHtml(state.gameTarget)));
+
+                dom.get('btnCheckIp').addEventListener('click', modules.ip.check);
+                dom.get('btnNewIp').addEventListener('click', modules.ip.init);
+                dom.get('btnHelpIp').addEventListener('click', () => dom.showModal(helpers.getModuloHtml(state.ipTarget)));
+            }
+
+            // --- 6. Init ---
+            function init() {
+                // Initialize Bootsrap Tooltips
+                [].slice.call(dom.getAll(CONFIG.SELECTORS.TOOLTIPS)).map(el => new bootstrap.Tooltip(el));
+
+                // Initialize Modules
+                modules.visualization.init();
+                modules.decimalTable.init();
+                modules.b2d.init();
+                modules.game.init();
+                modules.ip.init();
+
+                // Bind Events
+                bindEvents();
+            }
+
+            // Public API
+            return {
+                init: init,
+                showChapter: showChapter // Exposed for inline onclick calls (if any)
             };
         })();
 
+        // Start App
         document.addEventListener('DOMContentLoaded', app.init);
     </script>
 </body>
