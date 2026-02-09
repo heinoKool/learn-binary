@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lerneinheit: Das Binärsystem & IP-Adressen</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Code+Pro:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --c-primary: #8dff74;
+            --c-secondary: #111111;
+            --c-accent: #78d9ff;
+            --c-white: #ffffff;
+            --bit-off: #ffffff;
+            --bit-on: var(--c-primary);
+        }
+
+        body {
+            background-color: var(--c-white);
+            color: var(--c-secondary);
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            padding-top: 60px;
+        }
+
+        @media (min-width: 992px) {
+            body {
+                padding-top: 0;
+            }
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--c-secondary);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* Components */
+        .card {
+            border: 2px solid var(--c-secondary);
+            box-shadow: 4px 4px 0px var(--c-secondary);
+            border-radius: 8px;
+        }
+
+        .hero-header {
+            background-color: var(--c-secondary);
+            color: var(--c-primary);
+            border-bottom: 4px solid var(--c-primary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-header h1 {
+            color: var(--c-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Source Code Pro', monospace;
+            font-weight: 700;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+        }
+
+        .hero-header .lead {
+            color: var(--c-white);
+            font-weight: 500;
+            font-family: 'Source Code Pro', monospace;
+            font-size: clamp(0.9rem, 3vw, 1.25rem);
+        }
+
+        /* Sidebar */
+        .bd-sidebar {
+            background-color: var(--c-white);
+            border-right: 1px solid #dee2e6;
+        }
+
+        @media (min-width: 992px) {
+            .bd-sidebar {
+                position: sticky;
+                top: 2rem;
+                height: calc(100vh - 4rem);
+                overflow-y: auto;
+                border-right: none;
+            }
+        }
+
+        .bd-links .nav-link {
+            padding: .75rem 1rem;
+            padding-left: 1.5rem;
+            margin-top: .25rem;
+            color: var(--c-secondary);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .bd-links .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .bd-links .nav-link::after {
+            content: '→';
+            margin-left: auto;
+            padding-left: 0.5rem;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .bd-links .nav-link:hover {
+            background-color: var(--c-secondary);
+            color: var(--c-primary);
+            border: 2px solid var(--c-secondary);
+            transform: translateX(5px);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .bd-links .nav-link:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .bd-links .nav-link.active {
+            background-color: var(--c-primary);
+            color: var(--c-secondary);
+            font-weight: 800;
+            border: 2px solid var(--c-secondary);
+            box-shadow: 3px 3px 0px var(--c-secondary);
+            padding-left: 2rem;
+        }
+
+        .bd-links .nav-link.active::before {
+            content: '▶';
+            opacity: 1;
+            font-size: 0.7rem;
+        }
+
+        .bd-links .nav-link.active::after {
+            content: '';
+        }
+
+        .bd-links .nav-link.active:hover {
+            background-color: var(--c-primary);
+            color: var(--c-secondary);
+            transform: none;
+            box-shadow: 3px 3px 0px var(--c-secondary);
+        }
+
+        .bd-links-heading {
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: .5rem;
+            color: var(--c-secondary);
+            padding-left: 1rem;
+            border-bottom: 2px solid var(--c-secondary);
+            padding-bottom: 5px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+        }
+
+        /* Mobile Nav */
+        .mobile-nav-toggle {
+            background-color: var(--c-secondary);
+            border-bottom: 2px solid var(--c-primary);
+            z-index: 1030;
+        }
+
+        .mobile-brand {
+            font-family: 'Source Code Pro', monospace;
+            color: var(--c-primary);
+            font-weight: 700;
+        }
+
+        .mobile-nav-toggle .btn-outline-primary {
+            color: var(--c-primary);
+            border-color: var(--c-primary);
+        }
+
+        .mobile-nav-toggle .btn-outline-primary:hover {
+            background-color: var(--c-primary);
+            color: var(--c-secondary);
+        }
+
+        /* Bits UI */
+        .bit {
+            width: 50px;
+            height: 50px;
+            background-color: var(--bit-off);
+            border: 2px solid var(--c-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--c-secondary);
+            transition: all 0.1s;
+            user-select: none;
+            margin: 0 auto;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .bit:hover,
+        .bit:focus {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px var(--c-secondary);
+            border-color: var(--c-secondary);
+            outline: none;
+        }
+
+        .bit:active {
+            transform: translate(0, 0);
+            box-shadow: 0px 0px 0px var(--c-secondary);
+        }
+
+        .bit.active {
+            background-color: var(--bit-on);
+            box-shadow: 0 0 15px var(--c-primary);
+            transform: scale(1.1);
+        }
+
+        .bit-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
+
+        .bit-value {
+            font-size: 0.8rem;
+            color: var(--c-secondary);
+            margin-bottom: 5px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        /* Buttons & Inputs */
+        .btn {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--c-primary);
+            border-color: var(--c-secondary);
+            color: var(--c-secondary);
+            font-weight: 700;
+            border-width: 2px;
+        }
+
+        .btn-primary:hover {
+            background-color: #7ce666;
+            border-color: var(--c-secondary);
+            color: var(--c-secondary);
+            box-shadow: 2px 2px 0px var(--c-secondary);
+            transform: translate(-1px, -1px);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--c-secondary);
+            color: var(--c-white);
+        }
+
+        .btn-info {
+            background-color: var(--c-accent);
+            border-color: var(--c-secondary);
+            color: var(--c-secondary);
+            border-width: 2px;
+            font-weight: 700;
+        }
+
+        .btn-info:hover {
+            background-color: #6bcbf2;
+            border-color: var(--c-secondary);
+            box-shadow: 2px 2px 0px var(--c-secondary);
+        }
+
+        .btn-success {
+            background-color: var(--c-primary) !important;
+            border-color: var(--c-secondary) !important;
+            color: var(--c-secondary) !important;
+            border-width: 2px;
+            font-weight: 700;
+        }
+
+        .btn-danger {
+            background-color: #ff9999 !important;
+            border-color: var(--c-secondary) !important;
+            color: var(--c-secondary) !important;
+            border-width: 2px;
+            font-weight: 700;
+        }
+
+        .decimal-input {
+            width: 100%;
+            min-width: 45px;
+            max-width: 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 5px;
+            border: 2px solid var(--c-secondary);
+        }
+
+        .decimal-input:focus {
+            border-color: var(--c-accent);
+            box-shadow: none;
+        }
+
+        /* Specific Styles */
+        .card-exkurs {
+            border-left: 8px solid var(--c-accent) !important;
+        }
+
+        .bg-purple-light {
+            background-color: #e0f4ff !important;
+            border: 2px solid var(--c-secondary) !important;
+        }
+
+        .card-praxis {
+            border-left: 8px solid var(--c-secondary) !important;
+        }
+
+        .network-box {
+            background-color: var(--c-secondary);
+            color: var(--c-primary);
+            font-family: 'Courier New', monospace;
+            border-radius: 8px;
+            border: 2px solid var(--c-secondary);
+            word-break: break-word;
+        }
+
+        .ip-segment {
+            display: inline-block;
+            padding: 2px 4px;
+            border: 1px dashed #666;
+            border-radius: 4px;
+            margin: 2px;
+        }
+
+        .ip-segment.target {
+            border: 2px solid var(--c-primary);
+            color: var(--c-primary);
+            font-weight: bold;
+        }
+
+        .term {
+            border-bottom: 2px dashed var(--c-accent);
+            cursor: help;
+            color: var(--c-secondary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .term:hover {
+            background-color: var(--c-accent);
+        }
+
+        .pv-switch {
+            width: 100%;
+            padding: 8px 0;
+            background-color: var(--c-white);
+            border: 2px solid var(--c-secondary);
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--c-secondary);
+            cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .pv-switch:hover {
+            background-color: var(--c-white);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--c-secondary);
+            border-color: var(--c-accent);
+        }
+
+        .pv-switch.active {
+            background-color: var(--c-primary);
+            box-shadow: 2px 2px 0px var(--c-secondary);
+            transform: none;
+        }
+
+        .plus-sign {
+            font-size: 1.5rem;
+            color: var(--c-secondary);
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        .decimal-table .plus-sign {
+            color: var(--c-accent);
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content {
+            border: 3px solid var(--c-secondary);
+            border-radius: 12px;
+            box-shadow: 8px 8px 0px var(--c-secondary);
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--c-secondary);
+            background-color: var(--c-accent);
+        }
+
+        .modal-title {
+            font-weight: 800;
+        }
+
+        .modal-footer {
+            border-top: 2px solid var(--c-secondary);
+        }
+
+        .alert {
+            border: 2px solid var(--c-secondary);
+            color: var(--c-secondary);
+            background-color: #fff;
+            font-weight: 500;
+        }
+
+        .alert-info {
+            background-color: #e0f4ff;
+            border-left: 6px solid var(--c-accent);
+        }
+
+        .container-xxl {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body tabindex="0">
+
+    <!-- Progress Bar -->
+    <div class="fixed-top" style="z-index: 1050;">
+        <div class="progress" style="height: 8px; border-bottom: 2px solid var(--c-secondary);">
+            <div class="progress-bar" id="progressBar" role="progressbar"
+                style="width: 0%; background-color: var(--c-primary);"></div>
+        </div>
+    </div>
+
+    <!-- Mobile Nav Toggle -->
+    <nav class="navbar fixed-top d-lg-none mobile-nav-toggle p-2">
+        <div class="container-fluid">
+            <span class="mobile-brand h5 mb-0">BINÄR<span style="color:var(--c-primary)">LABOR</span></span>
+            <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#bdSidebar">
+                <i class="bi bi-list fs-4"></i> MENÜ
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="hero-header py-5 mb-4 text-center">
+        <div class="container px-3">
+            <h1 class="display-5">Das Binärsystem</h1>
+            <p class="lead mb-0">Verstehen, Umrechnen und Anwenden</p>
+        </div>
+    </header>
+
+    <div class="container-xxl bd-layout">
+        <div class="row g-4">
+            <!-- Sidebar -->
+            <div class="sidebar col-lg-3">
+                <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar">
+                    <div class="offcanvas-header border-bottom border-2 border-dark">
+                        <h5 class="offcanvas-title fw-bold">Lernpfad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            data-bs-target="#bdSidebar"></button>
+                    </div>
+                    <div class="offcanvas-body flex-column">
+                        <nav class="nav flex-column w-100" id="chapterNav">
+                            <div class="bd-links-heading mt-lg-3">Inhalt</div>
+                            <a class="nav-link active" data-target="intro-exkurs">ℹ️ Exkurs: Dezimalsystem</a>
+                            <a class="nav-link" data-target="chapter1">1. Die Stellenwerttafel</a>
+                            <a class="nav-link" data-target="chapter2">2. Binär zu Dezimal</a>
+                            <a class="nav-link" data-target="chapter3">3. Dezimal zu Binär</a>
+                            <a class="nav-link" data-target="chapter4">4. Praxis: IP-Adressen</a>
+                        </nav>
+                        <div class="bd-links-heading mt-4">Werkzeuge</div>
+                        <div class="d-grid gap-2 px-0 px-lg-3 mb-4">
+                            <button class="btn btn-sm btn-outline-secondary fw-bold" id="btnReset">
+                                <i class="bi bi-arrow-counterclockwise"></i> Alles zurücksetzen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <main class="col-lg-9 bd-content pb-5">
+
+                <!-- Sections (Dynamic Content) -->
+                <section id="intro-exkurs" class="chapter-section fade-in">
+                    <!-- Exkurs Content -->
+                    <div class="card card-exkurs mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h2 class="h3 card-title mb-3"><i class="bi bi-info-circle-fill me-2"
+                                    style="color: var(--c-accent);"></i>Exkurs: Dezimalsystem</h2>
+                            <p>Wir nutzen das <strong>Dezimalsystem</strong> (<span class="term"
+                                    data-bs-toggle="tooltip" title="0-9">Basis 10</span>). Jede Stelle ist 10-mal mehr
+                                wert als die rechte.</p>
+
+                            <div class="bg-purple-light p-2 p-md-3 rounded-3 mb-4 overflow-hidden">
+                                <p class="text-center mb-3 fw-bold">Trage Ziffern (0-9) ein:</p>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless text-center align-middle decimal-table mb-0"
+                                        style="min-width: 300px;">
+                                        <tbody id="decimalTableBody"></tbody>
+                                    </table>
+                                </div>
+                                <div id="decimalResult"
+                                    class="text-center fs-4 fw-bold mt-3 pt-3 border-top border-dark"></div>
+                            </div>
+                            <p>Im <strong>Binärsystem</strong> (<span class="term" data-bs-toggle="tooltip"
+                                    title="0 und 1">Basis 2</span>) ist jede Stelle <strong>2-mal</strong> mehr wert.
+                            </p>
+
+                            <!-- Quiz Exkurs -->
+                            <div class="bg-light p-3 p-md-4 rounded-3 mt-4">
+                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
+                                <div class="mb-4 quiz-group">
+                                    <p class="fw-bold mb-2">1. Welche Basis hat unser Dezimalsystem?</p>
+                                    <div class="btn-group w-100 d-flex" role="group">
+                                        <button class="btn btn-outline-primary w-100" data-correct="10" data-val="2"
+                                            data-exp="Basis 2 = Binär.">2</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="10" data-val="8"
+                                            data-exp="Basis 8 = Oktal.">8</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="10"
+                                            data-val="10">10</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group">
+                                    <p class="fw-bold mb-2">2. Wert der 4 in der Zahl 450?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="400" data-val="4"
+                                            data-exp="Einer?">4</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="400" data-val="40"
+                                            data-exp="Zehner?">40</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="400"
+                                            data-val="400">400</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn btn-primary" onclick="app.showChapter('chapter1')">Weiter <i
+                                        class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chapter1" class="chapter-section fade-in d-none">
+                    <!-- Chapter 1 Content -->
+                    <div class="card mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h2 class="h3 card-title mb-3">1. Die Stellenwerttafel</h2>
+                            <div class="alert alert-info">
+                                <strong>Aufgabe:</strong> Klicke auf die Schalter. Beobachte den Wert.<br><small>Links =
+                                    MSB (Max), Rechts = LSB (Min).</small>
+                            </div>
+                            <div class="table-responsive my-4">
+                                <table class="table table-borderless text-center align-middle" id="pvTable"
+                                    style="min-width: 600px;"></table>
+                            </div>
+                            <div class="d-md-none text-center text-muted small mb-2"><i
+                                    class="bi bi-arrow-left-right"></i> Wischen</div>
+                            <div class="p-3 rounded-3 text-center border border-2 border-dark mb-4"
+                                style="background-color: #e0f4ff;">
+                                Dezimalwert: <span id="visualResult" class="fw-bold fs-2">0</span>
+                            </div>
+
+                            <!-- Quiz 1 -->
+                            <div class="bg-light p-3 p-md-4 rounded-3">
+                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck 1</h4>
+                                <div class="mb-4 quiz-group">
+                                    <p class="fw-bold mb-2">1. Wert des MSB (links, $2^7$)?</p>
+                                    <div class="btn-group w-100 d-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="128"
+                                            data-val="64">64</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="128"
+                                            data-val="128">128</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="128"
+                                            data-val="255">255</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group">
+                                    <p class="fw-bold mb-2">2. Wert des LSB (rechts, $2^0$)?</p>
+                                    <div class="btn-group w-100 d-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="1"
+                                            data-val="0">0</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="1"
+                                            data-val="1">1</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="1"
+                                            data-val="2">2</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn btn-primary" onclick="app.showChapter('chapter2')">Weiter <i
+                                        class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chapter2" class="chapter-section fade-in d-none">
+                    <!-- Chapter 2 Content -->
+                    <div class="card mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h2 class="h3 card-title mb-3">2. Binär → Dezimal</h2>
+                            <p>Addiere die Stellenwerte aller Bits, die auf <strong>1</strong> stehen.</p>
+                            <div class="card bg-light border-2 border-dark mb-4">
+                                <div class="card-body text-center">
+                                    <h4 class="h6 text-uppercase text-muted mb-3">Übungs-Generator</h4>
+                                    <p>Übersetze:</p>
+                                    <div id="b2d-question"
+                                        class="display-4 fw-bold font-monospace mb-3 letter-spacing-3"
+                                        style="font-size: clamp(2rem, 5vw, 3rem);">00000000</div>
+                                    <div class="row justify-content-center g-2">
+                                        <div class="col-12 col-sm-auto"><input type="number" id="b2d-input"
+                                                class="form-control form-control-lg text-center decimal-input w-100"
+                                                placeholder="Dezimal..." style="max-width:none; min-width:150px;"></div>
+                                        <div class="col-6 col-sm-auto"><button class="btn btn-primary btn-lg w-100"
+                                                id="btnCheckB2D">Prüfen</button></div>
+                                        <div class="col-3 col-sm-auto"><button
+                                                class="btn btn-outline-secondary btn-lg w-100" id="btnNewB2D"><i
+                                                    class="bi bi-arrow-repeat"></i></button></div>
+                                        <div class="col-3 col-sm-auto"><button class="btn btn-info btn-lg w-100"
+                                                id="btnHelpB2D"><i class="bi bi-info-circle"></i></button></div>
+                                    </div>
+                                    <div id="b2d-feedback" class="mt-3 fw-bold"></div>
+                                </div>
+                            </div>
+
+                            <!-- Quiz 2 -->
+                            <div class="bg-light p-3 p-md-4 rounded-3">
+                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
+                                <div class="mb-4 quiz-group">
+                                    <p class="fw-bold mb-2">1. Was ist 0000 0011?</p>
+                                    <div class="btn-group w-100 d-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="3"
+                                            data-val="2">2</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="3"
+                                            data-val="3">3</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="3"
+                                            data-val="11">11</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group">
+                                    <p class="fw-bold mb-2">2. Ungerade Binärzahl?</p>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-primary" data-correct="R" data-val="L"
+                                            data-exp="Links bestimmt Größe.">Linkes Bit ist 1</button>
+                                        <button class="btn btn-outline-primary" data-correct="R" data-val="R">Rechtes
+                                            Bit ist 1</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn btn-primary" onclick="app.showChapter('chapter3')">Weiter <i
+                                        class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chapter3" class="chapter-section fade-in d-none">
+                    <!-- Chapter 3 Content -->
+                    <div class="card mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h2 class="h3 card-title mb-3">3. Dezimal → Binär</h2>
+                            <p>Stelle die Zahl binär dar.</p>
+                            <div class="text-center mb-4">
+                                <div class="d-inline-block p-3 rounded bg-white border border-2 border-dark mb-3">
+                                    <div class="small text-uppercase fw-bold">Ziel</div>
+                                    <div id="targetDecimal" class="display-3 fw-bold"
+                                        style="color: var(--c-secondary);">0</div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center flex-wrap gap-2 mb-3" id="gameBits"></div>
+                            <p class="text-center mb-4">Wert: <span id="currentGameValue" class="fw-bold">0</span></p>
+                            <div class="text-center d-flex justify-content-center gap-2">
+                                <button class="btn btn-primary" id="btnCheckGame">Prüfen</button>
+                                <button class="btn btn-outline-secondary" id="btnNewGame"><i
+                                        class="bi bi-arrow-repeat"></i> Neu</button>
+                                <button class="btn btn-info" id="btnHelpGame"><i class="bi bi-info-circle"></i>
+                                    Weg</button>
+                            </div>
+                            <div id="game-feedback" class="mt-3 fw-bold text-center"></div>
+
+                            <!-- Quiz 3 -->
+                            <div class="bg-light p-3 p-md-4 rounded-3 mt-4">
+                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
+                                <div class="mb-3 quiz-group">
+                                    <p class="fw-bold mb-2">Min. Bits für Zahl 20?</p>
+                                    <div class="btn-group w-100 d-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="5"
+                                            data-val="4">4</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="5"
+                                            data-val="5">5</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="5"
+                                            data-val="8">8</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn btn-primary" onclick="app.showChapter('chapter4')">Weiter <i
+                                        class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chapter4" class="chapter-section fade-in d-none">
+                    <!-- Chapter 4 Content -->
+                    <div class="card card-praxis mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h2 class="h3 card-title mb-3">4. Praxis: IP-Adressen</h2>
+                            <div class="network-box p-3 p-md-4 mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div><span class="status-light bg-danger" id="networkStatusLight"></span><span
+                                            id="statusText" class="text-danger fw-bold small">GETRENNT</span></div>
+                                    <div class="small opacity-50">v2.0</div>
+                                </div>
+                                <div class="text-center my-4">
+                                    <div class="fs-5 mb-2">PING TARGET:</div>
+                                    <div class="fs-3 font-monospace d-flex flex-wrap justify-content-center gap-1">
+                                        <span class="ip-segment">192</span>.<span class="ip-segment">168</span>.<span
+                                            class="ip-segment">178</span>.<span class="ip-segment target"
+                                            id="targetIpOctet">?</span>
+                                    </div>
+                                </div>
+                                <p class="text-center mb-0 small">Aufgabe: Stelle das letzte Oktett auf <strong
+                                        id="requiredIpValue" style="color: var(--c-primary);"></strong> ein.</p>
+                            </div>
+                            <div class="d-flex justify-content-center flex-wrap gap-2 mb-3" id="ipBits"></div>
+                            <p class="text-center">Eingestellt: <span id="currentIpValue" class="fw-bold fs-4">0</span>
+                            </p>
+                            <div id="ipGameHint" class="alert alert-info text-center py-2 small fw-bold" role="alert">
+                            </div>
+                            <div class="text-center d-flex justify-content-center gap-2">
+                                <button class="btn btn-lg btn-success" id="btnCheckIp">Verbinden</button>
+                                <button class="btn btn-lg btn-outline-secondary" id="btnNewIp">Neu</button>
+                                <button class="btn btn-lg btn-info" id="btnHelpIp">ℹ️ Weg</button>
+                            </div>
+                            <div id="ip-feedback" class="mt-3 fw-bold text-center"></div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Lösungsweg</h5><button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-light font-monospace" id="infoContent"></div>
+                <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">OK</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="certModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <div class="modal-body">
+                    <div class="display-1 mb-3">🏆</div>
+                    <h2 class="fw-bold mb-3">Glückwunsch!</h2>
+                    <p class="lead text-muted mb-4">Du bist bereit für die Netzwerktechnik.</p>
+                    <button class="btn btn-success btn-lg px-5" onclick="location.reload()">Neustarten</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        'use strict';
+
+        // --- Application Module ---
+        const app = (function () {
+            // State
+            let b2dTarget = 0;
+            let gameTarget = 0;
+            let ipTarget = 0;
+            let totalProgress = 0;
+            const visualBits = [0, 0, 0, 0, 0, 0, 0, 0];
+
+            // --- UI Updating ---
+            function updateProgressBar() {
+                totalProgress += 2;
+                if (totalProgress > 100) totalProgress = 100;
+                document.getElementById('progressBar').style.width = totalProgress + '%';
+
+                if (totalProgress >= 100) {
+                    setTimeout(() => new bootstrap.Modal(document.getElementById('certModal')).show(), 1000);
+                }
+            }
+
+            function showModal(content) {
+                document.getElementById('infoContent').innerHTML = content;
+                new bootstrap.Modal(document.getElementById('infoModal')).show();
+            }
+
+            // --- Navigation ---
+            function showChapter(chapterId) {
+                // Handle Mobile Offcanvas
+                const sidebarEl = document.getElementById('bdSidebar');
+                const bsOffcanvas = bootstrap.Offcanvas.getInstance(sidebarEl);
+                if (bsOffcanvas) bsOffcanvas.hide();
+
+                // Toggle Sections
+                document.querySelectorAll('.chapter-section').forEach(sec => sec.classList.add('d-none'));
+                document.getElementById(chapterId)?.classList.remove('d-none');
+
+                // Update Nav Active State
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-target') === chapterId) link.classList.add('active');
+                });
+
+                window.scrollTo(0, 0);
+            }
+
+            // --- Quiz Logic (Delegated Event) ---
+            function initQuizListeners() {
+                document.querySelectorAll('.quiz-group').forEach(group => {
+                    group.addEventListener('click', (e) => {
+                        if (e.target.matches('button')) {
+                            const btn = e.target;
+                            const correct = btn.getAttribute('data-correct');
+                            const val = btn.getAttribute('data-val');
+                            const exp = btn.getAttribute('data-exp') || '';
+                            const feedbackEl = group.querySelector('.feedback');
+
+                            // Reset buttons
+                            group.querySelectorAll('button').forEach(b => b.className = 'btn btn-outline-primary w-100');
+
+                            if (val === correct) {
+                                feedbackEl.innerHTML = '<div class="alert alert-success py-2 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Richtig!</div>';
+                                btn.className = 'btn btn-success w-100';
+                                updateProgressBar();
+                            } else {
+                                feedbackEl.innerHTML = `<div class="alert alert-danger py-2 mb-0 fw-bold"><i class="bi bi-x-circle-fill me-2"></i>Falsch. ${exp}</div>`;
+                                btn.className = 'btn btn-danger w-100';
+                            }
+                        }
+                    });
+                });
+            }
+
+            // --- Component: Interactive Bits ---
+            function renderBits(containerId, count, callback) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                const state = new Array(count).fill(0);
+
+                for (let i = count - 1; i >= 0; i--) { // MSB left
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'bit-wrapper';
+
+                    const label = document.createElement('div');
+                    label.className = 'bit-value';
+                    label.innerText = Math.pow(2, i);
+
+                    const bit = document.createElement('div');
+                    bit.className = 'bit shadow-sm';
+                    bit.innerText = '0';
+                    bit.setAttribute('role', 'button');
+                    bit.setAttribute('tabindex', '0');
+                    bit.setAttribute('aria-pressed', 'false');
+
+                    const toggle = () => {
+                        state[i] = state[i] ? 0 : 1;
+                        bit.classList.toggle('active');
+                        bit.innerText = state[i];
+                        bit.setAttribute('aria-pressed', state[i] ? 'true' : 'false');
+                        callback(state);
+                    };
+
+                    bit.addEventListener('click', toggle);
+                    bit.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault(); toggle();
+                        }
+                    });
+
+                    wrapper.append(label, bit);
+                    container.appendChild(wrapper);
+                }
+                return state;
+            }
+
+            // --- Decimal Table Exkurs ---
+            function initDecimalTable() {
+                const tbody = document.getElementById('decimalTableBody');
+                const powers = [3, 2, 1, 0];
+                const labels = ['1000', '100', '10', '1'];
+                const defaults = [2, 5, 3, 0];
+
+                let html = `<tr>`;
+                powers.forEach(p => html += `<th><div class="pv-cell-power">10<sup>${p}</sup></div></th>`);
+                html += `</tr><tr>`;
+                labels.forEach(l => html += `<td><div class="pv-cell-value">${l}</div></td>`);
+                html += `</tr><tr>`;
+
+                powers.forEach((p, i) => {
+                    html += `<td><input type="number" class="form-control decimal-input mx-auto" 
+                             id="dec-input-${p}" value="${defaults[i]}" min="0" max="9"></td>`;
+                });
+                html += `</tr><tr>`;
+                powers.forEach((p, i) => {
+                    html += `<td class="breakdown-cell small text-muted" id="dec-calc-${p}"></td>`;
+                });
+                html += `</tr>`;
+                tbody.innerHTML = html;
+
+                // Add Spacers Logic (Simplified in CSS for this version, handled by flex/table layout)
+                // Just attaching listeners
+                powers.forEach(p => {
+                    document.getElementById(`dec-input-${p}`).addEventListener('input', updateDecimalTable);
+                });
+                updateDecimalTable();
+            }
+
+            function updateDecimalTable() {
+                let total = 0;
+                [3, 2, 1, 0].forEach(p => {
+                    const input = document.getElementById(`dec-input-${p}`);
+                    let val = parseInt(input.value) || 0;
+                    if (input.value.length > 1) { val = parseInt(input.value.slice(0, 1)); input.value = val; }
+
+                    const placeVal = Math.pow(10, p);
+                    document.getElementById(`dec-calc-${p}`).innerText = `${val} × ${placeVal}`;
+                    total += val * placeVal;
+                });
+                document.getElementById('decimalResult').innerText = `Ergebnis: ${total}`;
+            }
+
+            // --- Chapter 1: Visualization ---
+            function initVisualization() {
+                const table = document.getElementById('pvTable');
+                let html = `<thead><tr>`;
+                for (let i = 7; i >= 0; i--) html += `<th><div class="pv-cell-power">2<sup>${i}</sup></div></th>` + (i > 0 ? `<th></th>` : ``);
+                html += `</tr></thead><tbody><tr>`;
+                for (let i = 7; i >= 0; i--) html += `<td><div class="pv-cell-value">${Math.pow(2, i)}</div></td>` + (i > 0 ? `<td class="table-spacer"></td>` : ``);
+                html += `</tr><tr>`;
+                for (let i = 7; i >= 0; i--) html += `<td><div class="pv-switch mx-auto" role="button" tabindex="0" data-idx="${i}">0</div></td>` + (i > 0 ? `<td class="table-spacer"></td>` : ``);
+                html += `</tr><tr>`;
+                for (let i = 7; i >= 0; i--) html += `<td class="breakdown-cell small" id="vis-calc-${i}"></td>` + (i > 0 ? `<td class="plus-sign">+</td>` : ``);
+                html += `</tr></tbody>`;
+                table.innerHTML = html;
+
+                document.querySelectorAll('.pv-switch').forEach(btn => {
+                    const idx = btn.getAttribute('data-idx');
+                    const toggle = () => {
+                        visualBits[idx] = visualBits[idx] ? 0 : 1;
+                        btn.classList.toggle('active');
+                        btn.innerText = visualBits[idx];
+                        updateVisCalc();
+                    };
+                    btn.addEventListener('click', toggle);
+                    btn.addEventListener('keydown', (e) => { if (e.key === 'Enter') toggle(); });
+                });
+                updateVisCalc();
+            }
+
+            function updateVisCalc() {
+                let sum = 0;
+                visualBits.forEach((bit, i) => {
+                    const val = Math.pow(2, i);
+                    const el = document.getElementById(`vis-calc-${i}`);
+                    if (bit) {
+                        sum += val;
+                        el.innerHTML = `<span class="fw-bold" style="color:var(--c-primary)">1 × ${val}</span>`;
+                    } else {
+                        el.innerHTML = `<span class="text-muted opacity-50">0 × ${val}</span>`;
+                    }
+                });
+                document.getElementById('visualResult').innerText = sum;
+            }
+
+            // --- Chapter 2: B2D ---
+            function initB2D() {
+                b2dTarget = Math.floor(Math.random() * 255);
+                const binStr = b2dTarget.toString(2).padStart(8, '0');
+                document.getElementById('b2d-question').innerText = binStr.slice(0, 4) + ' ' + binStr.slice(4);
+                document.getElementById('b2d-input').value = '';
+                document.getElementById('b2d-feedback').innerHTML = '';
+            }
+
+            // --- Chapter 3: Game ---
+            function initGame() {
+                gameTarget = Math.floor(Math.random() * 255) + 1;
+                document.getElementById('targetDecimal').innerText = gameTarget;
+                document.getElementById('game-feedback').innerHTML = '';
+                document.getElementById('currentGameValue').innerText = '0';
+
+                renderBits('gameBits', 8, (state) => {
+                    let sum = 0;
+                    state.forEach((b, i) => { if (b) sum += Math.pow(2, i); });
+                    document.getElementById('currentGameValue').innerText = sum;
+                });
+            }
+
+            // --- Chapter 4: IP ---
+            function initIpGame() {
+                ipTarget = Math.floor(Math.random() * 254) + 1;
+                document.getElementById('targetIpOctet').innerText = ipTarget;
+                document.getElementById('requiredIpValue').innerText = ipTarget;
+                document.getElementById('currentIpValue').innerText = '0';
+                document.getElementById('ip-feedback').innerHTML = '';
+                document.getElementById('networkStatusLight').className = 'status-light bg-danger';
+                document.getElementById('statusText').innerText = "GETRENNT";
+                document.getElementById('statusText').className = "text-danger fw-bold";
+                document.getElementById('ipGameHint').innerText = "Tipp: Starte mit dem größten Bit (128).";
+                document.getElementById('ipGameHint').className = "alert alert-info py-2 small fw-bold";
+
+                renderBits('ipBits', 8, (state) => {
+                    let sum = 0;
+                    state.forEach((b, i) => { if (b) sum += Math.pow(2, i); });
+                    document.getElementById('currentIpValue').innerText = sum;
+
+                    // Scaffolding Hint
+                    const hintEl = document.getElementById('ipGameHint');
+                    const diff = ipTarget - sum;
+                    if (diff === 0) {
+                        hintEl.innerText = "Bereit! Klicke auf 'Verbinden'.";
+                        hintEl.className = "alert alert-success py-2 small fw-bold";
+                    } else if (diff > 0) {
+                        hintEl.innerText = `Dir fehlen noch: ${diff}`;
+                        hintEl.className = "alert alert-warning py-2 small fw-bold";
+                    } else {
+                        hintEl.innerText = `Du bist ${Math.abs(diff)} zu hoch!`;
+                        hintEl.className = "alert alert-danger py-2 small fw-bold";
+                    }
+                });
+            }
+
+            // --- Public API ---
+            return {
+                init: () => {
+                    // Tooltips
+                    [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(el => new bootstrap.Tooltip(el));
+
+                    // Listeners for Nav
+                    document.querySelectorAll('.nav-link').forEach(l => {
+                        l.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            showChapter(l.getAttribute('data-target'));
+                        });
+                    });
+
+                    document.getElementById('btnReset').addEventListener('click', () => location.reload());
+
+                    // B2D
+                    document.getElementById('btnCheckB2D').addEventListener('click', () => {
+                        const input = parseInt(document.getElementById('b2d-input').value);
+                        const fb = document.getElementById('b2d-feedback');
+                        if (input === b2dTarget) {
+                            fb.innerHTML = '<span class="text-success"><i class="bi bi-check-lg"></i> Richtig!</span>';
+                            updateProgressBar();
+                        } else fb.innerHTML = '<span class="text-danger"><i class="bi bi-x-lg"></i> Falsch.</span>';
+                    });
+                    document.getElementById('btnNewB2D').addEventListener('click', initB2D);
+                    document.getElementById('btnHelpB2D').addEventListener('click', () => {
+                        let html = "<p>Addiere die Stellenwerte, wo eine <strong>1</strong> steht:</p><ul class='list-group'>";
+                        let sum = 0;
+                        const binStr = b2dTarget.toString(2).padStart(8, '0');
+                        for (let i = 0; i < 8; i++) {
+                            if (binStr[i] === '1') {
+                                const val = Math.pow(2, 7 - i);
+                                html += `<li class="list-group-item d-flex justify-content-between">Bit für ${val} ist 1 <span class="badge bg-primary text-dark">+${val}</span></li>`;
+                                sum += val;
+                            }
+                        }
+                        html += `</ul><div class="mt-3 text-end fw-bold">Summe: ${sum}</div>`;
+                        showModal(html);
+                    });
+
+                    // Game D2B
+                    document.getElementById('btnCheckGame').addEventListener('click', () => {
+                        const current = parseInt(document.getElementById('currentGameValue').innerText);
+                        const fb = document.getElementById('game-feedback');
+                        if (current === gameTarget) {
+                            fb.innerHTML = '<span class="text-success fs-4"><i class="bi bi-check-lg"></i> Perfekt!</span>';
+                            updateProgressBar();
+                        } else fb.innerHTML = `<span class="text-danger">Diff: ${gameTarget - current}</span>`;
+                    });
+                    document.getElementById('btnNewGame').addEventListener('click', initGame);
+                    document.getElementById('btnHelpGame').addEventListener('click', () => {
+                        showModal(app.getModuloHtml(gameTarget));
+                    });
+
+                    // IP Game
+                    document.getElementById('btnCheckIp').addEventListener('click', () => {
+                        const current = parseInt(document.getElementById('currentIpValue').innerText);
+                        const fb = document.getElementById('ip-feedback');
+                        if (current === ipTarget) {
+                            fb.innerHTML = '<span class="text-success"><i class="bi bi-wifi"></i> Verbunden!</span>';
+                            document.getElementById('networkStatusLight').className = 'status-light bg-success';
+                            document.getElementById('statusText').innerText = "ONLINE";
+                            document.getElementById('statusText').className = "text-success fw-bold";
+                            updateProgressBar();
+                        } else fb.innerHTML = '<span class="text-danger">Verbindung fehlgeschlagen.</span>';
+                    });
+                    document.getElementById('btnNewIp').addEventListener('click', initIpGame);
+                    document.getElementById('btnHelpIp').addEventListener('click', () => {
+                        showModal(app.getModuloHtml(ipTarget));
+                    });
+
+                    // Initializations
+                    initDecimalTable();
+                    initVisualization();
+                    initQuizListeners();
+                    initB2D();
+                    initGame();
+                    initIpGame();
+                },
+                showChapter: showChapter,
+                getModuloHtml: (targetVal) => {
+                    if (targetVal === 0) return "<p>0 : 2 = 0 Rest 0</p>";
+                    let html = `<p><strong>Restverfahren</strong>:</p><table class="table table-sm"><thead><tr><th>Rechnung</th><th class="text-end">Rest</th></tr></thead><tbody>`;
+                    let temp = targetVal;
+                    let steps = [];
+                    while (temp > 0) {
+                        let r = temp % 2;
+                        let q = Math.floor(temp / 2);
+                        steps.push({ v: temp, q: q, r: r });
+                        temp = q;
+                    }
+                    steps.forEach(s => html += `<tr><td>${s.v} : 2 = ${s.q}</td><td class="text-end fw-bold text-primary">${s.r}</td></tr>`);
+                    html += `</tbody></table><div class="alert alert-dark text-center fw-bold fs-4 letter-spacing-3">${steps.map(s => s.r).reverse().join('')}</div>`;
+                    return html;
+                }
+            };
+        })();
+
+        document.addEventListener('DOMContentLoaded', app.init);
+    </script>
+</body>
+
+</html>
