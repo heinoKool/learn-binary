@@ -18,12 +18,18 @@
 
     <style>
         :root {
-            --c-primary: #8dff74;
+            --c-primary: #00FA9A;
             --c-secondary: #111111;
-            --c-accent: #78d9ff;
+            --c-accent: #00FA9A;
             --c-white: #ffffff;
             --bit-off: #ffffff;
             --bit-on: var(--c-primary);
+
+            /* Bootstrap Override */
+            --bs-primary: #1d00fa;
+            --bs-primary-rgb: 29, 0, 250;
+            --bs-link-color: #1d00fa;
+            --bs-link-hover-color: #1500b3;
         }
 
         body {
@@ -85,7 +91,6 @@
         /* Sidebar */
         .bd-sidebar {
             background-color: var(--c-white);
-            border-right: 1px solid #dee2e6;
         }
 
         @media (min-width: 992px) {
@@ -94,92 +99,137 @@
                 top: 2rem;
                 height: calc(100vh - 4rem);
                 overflow-y: auto;
-                border-right: none;
             }
         }
 
-        .bd-links .nav-link {
-            padding: .75rem 1rem;
-            padding-left: 1.5rem;
-            margin-top: .25rem;
-            color: var(--c-secondary);
-            border: 2px solid transparent;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .bd-links .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0.5rem;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .bd-links .nav-link::after {
-            content: '→';
-            margin-left: auto;
-            padding-left: 0.5rem;
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .bd-links .nav-link:hover {
-            background-color: var(--c-secondary);
-            color: var(--c-primary);
-            border: 2px solid var(--c-secondary);
-            transform: translateX(5px);
-            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
-        }
-
-        .bd-links .nav-link:hover::after {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .bd-links .nav-link.active {
-            background-color: var(--c-primary);
-            color: var(--c-secondary);
-            font-weight: 800;
-            border: 2px solid var(--c-secondary);
-            box-shadow: 3px 3px 0px var(--c-secondary);
-            padding-left: 2rem;
-        }
-
-        .bd-links .nav-link.active::before {
-            content: '▶';
-            opacity: 1;
-            font-size: 0.7rem;
-        }
-
-        .bd-links .nav-link.active::after {
-            content: '';
-        }
-
-        .bd-links .nav-link.active:hover {
-            background-color: var(--c-primary);
-            color: var(--c-secondary);
-            transform: none;
-            box-shadow: 3px 3px 0px var(--c-secondary);
+        /* Navigation Container */
+        .bd-links {
+            padding: 0.5rem;
         }
 
         .bd-links-heading {
-            font-weight: 900;
+            font-weight: 800;
             text-transform: uppercase;
-            margin-bottom: .5rem;
+            margin-bottom: 0.75rem;
             color: var(--c-secondary);
-            padding-left: 1rem;
-            border-bottom: 2px solid var(--c-secondary);
-            padding-bottom: 5px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+            background: linear-gradient(90deg, var(--c-secondary) 0%, transparent 100%);
+            color: var(--c-white);
+            border-radius: 4px;
+        }
+
+        /* Nav Links - Base State */
+        .bd-links .nav-link {
+            padding: 0.875rem 1rem;
+            padding-left: 3rem;
+            margin-bottom: 0.375rem;
+            color: var(--c-secondary);
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.15s ease;
+            position: relative;
+            display: block;
+            text-decoration: none;
+        }
+
+        /* Step Number Circle */
+        .bd-links .nav-link::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.75rem;
+            height: 1.75rem;
+            background-color: #e9ecef;
+            border: 2px solid #dee2e6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #6c757d;
+            transition: all 0.15s ease;
+        }
+
+        /* Hover State */
+        .bd-links .nav-link:hover {
+            background-color: var(--c-secondary);
+            color: var(--c-primary);
+            border-color: var(--c-secondary);
+            transform: translateX(4px);
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .bd-links .nav-link:hover::before {
+            background-color: var(--c-primary);
+            border-color: var(--c-primary);
+            color: var(--c-secondary);
+        }
+
+        /* Active State */
+        .bd-links .nav-link.active {
+            background-color: var(--c-primary);
+            color: var(--c-secondary);
+            border: 2px solid var(--c-secondary);
+            font-weight: 800;
+            box-shadow: 4px 4px 0px var(--c-secondary);
+        }
+
+        .bd-links .nav-link.active::before {
+            background-color: var(--c-secondary);
+            border-color: var(--c-secondary);
+            color: var(--c-primary);
+            content: '✓';
+        }
+
+        .bd-links .nav-link.active:hover {
+            transform: none;
+            box-shadow: 4px 4px 0px var(--c-secondary);
+        }
+
+        /* Exkurs Style - Smaller, Subtle */
+        .bd-links .nav-link.nav-exkurs {
+            background-color: #e8f4fc;
+            border-color: var(--c-accent);
+            border-style: dashed;
             font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-top: 1.5rem;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+        }
+
+        .bd-links .nav-link.nav-exkurs::before {
+            content: 'ℹ';
+            background-color: var(--c-accent);
+            border-color: var(--c-accent);
+            color: var(--c-secondary);
+            width: 1.5rem;
+            height: 1.5rem;
+            font-size: 0.7rem;
+        }
+
+        .bd-links .nav-link.nav-exkurs:hover {
+            background-color: var(--c-accent);
+            border-color: var(--c-secondary);
+            border-style: solid;
+            color: var(--c-secondary);
+        }
+
+        .bd-links .nav-link.nav-exkurs.active {
+            background-color: var(--c-accent);
+            border-style: solid;
+        }
+
+        .bd-links .nav-link.nav-exkurs.active::before {
+            content: '✓';
+            background-color: var(--c-secondary);
         }
 
         /* Mobile Nav */
@@ -341,7 +391,7 @@
         }
 
         .bg-purple-light {
-            background-color: #e0f4ff !important;
+            background-color: #f8f9fa !important;
             border: 2px solid var(--c-secondary) !important;
         }
 
@@ -466,7 +516,7 @@
         }
 
         .alert-info {
-            background-color: #e0f4ff;
+            background-color: #f8f9fa;
             border-left: 6px solid var(--c-accent);
         }
 
@@ -478,13 +528,7 @@
 
 <body tabindex="0">
 
-    <!-- Progress Bar -->
-    <div class="fixed-top" style="z-index: 1050;">
-        <div class="progress" style="height: 8px; border-bottom: 2px solid var(--c-secondary);">
-            <div class="progress-bar" id="progressBar" role="progressbar"
-                style="width: 0%; background-color: var(--c-primary);"></div>
-        </div>
-    </div>
+
 
     <!-- Mobile Nav Toggle -->
     <nav class="navbar fixed-top d-lg-none mobile-nav-toggle p-2">
@@ -516,20 +560,15 @@
                             data-bs-target="#bdSidebar"></button>
                     </div>
                     <div class="offcanvas-body flex-column">
-                        <nav class="nav flex-column w-100" id="chapterNav">
-                            <div class="bd-links-heading mt-lg-3">Inhalt</div>
-                            <a class="nav-link active" data-target="intro-exkurs">ℹ️ Exkurs: Dezimalsystem</a>
-                            <a class="nav-link" data-target="chapter1">1. Die Stellenwerttafel</a>
-                            <a class="nav-link" data-target="chapter2">2. Binär zu Dezimal</a>
-                            <a class="nav-link" data-target="chapter3">3. Dezimal zu Binär</a>
-                            <a class="nav-link" data-target="chapter4">4. Praxis: IP-Adressen</a>
+                        <nav class="nav flex-column w-100 bd-links" id="chapterNav">
+                            <div class="bd-links-heading">LERNPFAD</div>
+                            <a class="nav-link nav-exkurs active" data-target="intro-exkurs">Intro: Dezimalsystem</a>
+                            <a class="nav-link" data-step="1" data-target="chapter1">Die Stellenwerttafel</a>
+                            <a class="nav-link" data-step="2" data-target="chapter2">Binär → Dezimal</a>
+                            <a class="nav-link" data-step="3" data-target="chapter3">Dezimal → Binär</a>
+                            <a class="nav-link" data-step="4" data-target="chapter4">Praxis: IP-Adressen</a>
                         </nav>
-                        <div class="bd-links-heading mt-4">Werkzeuge</div>
-                        <div class="d-grid gap-2 px-0 px-lg-3 mb-4">
-                            <button class="btn btn-sm btn-outline-secondary fw-bold" id="btnReset">
-                                <i class="bi bi-arrow-counterclockwise"></i> Alles zurücksetzen
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -543,7 +582,8 @@
                     <div class="card card-exkurs mb-4">
                         <div class="card-body p-3 p-md-4">
                             <h2 class="h3 card-title mb-3"><i class="bi bi-info-circle-fill me-2"
-                                    style="color: var(--c-accent);"></i>Exkurs: Dezimalsystem</h2>
+                                    style="color: var(--c-accent);"></i>Intro: Dezimalsystem</h2>
+
                             <p>Wir nutzen das <strong>Dezimalsystem</strong> (<span class="term"
                                     data-bs-toggle="tooltip" title="0-9">Basis 10</span>). Jede Stelle ist 10-mal mehr
                                 wert als die rechte.</p>
@@ -559,16 +599,35 @@
                                 <div id="decimalResult"
                                     class="text-center fs-4 fw-bold mt-3 pt-3 border-top border-dark"></div>
                             </div>
+
+                            <div class="alert alert-info py-3 mb-4">
+                                <p class="mb-0"><strong>🤔 Aber Moment mal...</strong> Wir nutzen vermutlich Basis 10,
+                                    weil wir 10 Finger haben. Aber Computer? Die haben keine Finger – nur Transistoren,
+                                    die entweder Strom leiten oder nicht. An oder Aus. 1 oder 0. Fertig. Willkommen im
+                                    Binärsystem!</p>
+                            </div>
+
                             <p>Im <strong>Binärsystem</strong> (<span class="term" data-bs-toggle="tooltip"
                                     title="0 und 1">Basis 2</span>) ist jede Stelle <strong>2-mal</strong> mehr wert.
                             </p>
+
+                            <!-- Merksatz -->
+                            <div class="card mb-4"
+                                style="background-color: var(--c-primary); border: 2px solid var(--c-secondary);">
+                                <div class="card-body py-3">
+                                    <p class="mb-2 fw-bold">📌 Merke:</p>
+                                    <p class="mb-0">Dezimal: Jede Stelle ist <strong>10×</strong> mehr wert (Basis
+                                        10)<br>
+                                        Binär: Jede Stelle ist <strong>2×</strong> mehr wert (Basis 2)</p>
+                                </div>
+                            </div>
 
                             <!-- Quiz Exkurs -->
                             <div class="bg-light p-3 p-md-4 rounded-3 mt-4">
                                 <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
                                 <div class="mb-4 quiz-group">
                                     <p class="fw-bold mb-2">1. Welche Basis hat unser Dezimalsystem?</p>
-                                    <div class="btn-group w-100 d-flex" role="group">
+                                    <div class="d-grid gap-2 d-md-flex">
                                         <button class="btn btn-outline-primary w-100" data-correct="10" data-val="2"
                                             data-exp="Basis 2 = Binär.">2</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="10" data-val="8"
@@ -604,27 +663,44 @@
                     <div class="card mb-4">
                         <div class="card-body p-3 p-md-4">
                             <h2 class="h3 card-title mb-3">1. Die Stellenwerttafel</h2>
-                            <div class="alert alert-info">
-                                <strong>Aufgabe:</strong> Klicke auf die Schalter. Beobachte den Wert.<br><small>Links =
-                                    MSB (Max), Rechts = LSB (Min).</small>
-                            </div>
-                            <div class="table-responsive my-4">
-                                <table class="table table-borderless text-center align-middle" id="pvTable"
-                                    style="min-width: 600px;"></table>
-                            </div>
-                            <div class="d-md-none text-center text-muted small mb-2"><i
-                                    class="bi bi-arrow-left-right"></i> Wischen</div>
-                            <div class="p-3 rounded-3 text-center border border-2 border-dark mb-4"
-                                style="background-color: #e0f4ff;">
-                                Dezimalwert: <span id="visualResult" class="fw-bold fs-2">0</span>
+                            <p>Hier lernst du, wie der Computer Zahlen speichert. Jede Stelle (ein <span class="term"
+                                    data-bs-toggle="tooltip"
+                                    title="Binary Digit: Kleinste Dateneinheit (0/1)">Bit</span>) hat einen festen
+                                Wert: <strong>1, 2, 4, 8, 16, 32, 64, 128</strong>.</p>
+                            <!-- Experimentierfeld Box -->
+                            <div class="card bg-light border-2 border-dark mb-4">
+                                <div class="card-body">
+                                    <h4 class="h6 text-uppercase text-muted mb-3">Experimentierfeld</h4>
+
+                                    <div class="alert alert-info">
+                                        <strong>Aufgabe:</strong> Klicke auf die Schalter. Beobachte, wie sich der
+                                        Dezimalwert
+                                        ändert.<br>
+                                        <small>Links = höchster Stellenwert (<span class="term" data-bs-toggle="tooltip"
+                                                title="Most Significant Bit">MSB</span>), Rechts = niedrigster
+                                            Stellenwert
+                                            (<span class="term" data-bs-toggle="tooltip"
+                                                title="Least Significant Bit">LSB</span>)</small>
+                                    </div>
+                                    <div class="table-responsive my-4">
+                                        <table class="table table-borderless text-center align-middle" id="pvTable"
+                                            style="min-width: 600px;"></table>
+                                    </div>
+                                    <div class="d-md-none text-center text-muted small mb-2"><i
+                                            class="bi bi-arrow-left-right"></i> Wischen</div>
+                                    <div class="p-3 rounded-3 text-center border border-2 border-dark mb-4 d-flex align-items-center justify-content-center gap-2"
+                                        style="background-color: #fff;">
+                                        <span>Dezimalwert:</span> <span id="visualResult" class="fw-bold fs-2">0</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Quiz 1 -->
                             <div class="bg-light p-3 p-md-4 rounded-3">
-                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck 1</h4>
+                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
                                 <div class="mb-4 quiz-group">
-                                    <p class="fw-bold mb-2">1. Wert des MSB (links, $2^7$)?</p>
-                                    <div class="btn-group w-100 d-flex">
+                                    <p class="fw-bold mb-2">1. Wert des linken Bits (2<sup>7</sup>)?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
                                         <button class="btn btn-outline-primary w-100" data-correct="128"
                                             data-val="64">64</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="128"
@@ -635,14 +711,14 @@
                                     <div class="feedback mt-2"></div>
                                 </div>
                                 <div class="quiz-group">
-                                    <p class="fw-bold mb-2">2. Wert des LSB (rechts, $2^0$)?</p>
-                                    <div class="btn-group w-100 d-flex">
-                                        <button class="btn btn-outline-primary w-100" data-correct="1"
-                                            data-val="0">0</button>
-                                        <button class="btn btn-outline-primary w-100" data-correct="1"
-                                            data-val="1">1</button>
-                                        <button class="btn btn-outline-primary w-100" data-correct="1"
-                                            data-val="2">2</button>
+                                    <p class="fw-bold mb-2">2. Wert des rechten Bits (2<sup>0</sup>)?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="1" data-val="0"
+                                            data-exp="Das ist 2 hoch 0!">0</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="1" data-val="1"
+                                            data-exp="Richtig! 2 hoch 0 = 1.">1</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="1" data-val="2"
+                                            data-exp="Das wäre 2 hoch 1 (2. Stelle).">2</button>
                                     </div>
                                     <div class="feedback mt-2"></div>
                                 </div>
@@ -660,7 +736,11 @@
                     <div class="card mb-4">
                         <div class="card-body p-3 p-md-4">
                             <h2 class="h3 card-title mb-3">2. Binär → Dezimal</h2>
-                            <p>Addiere die Stellenwerte aller Bits, die auf <strong>1</strong> stehen.</p>
+                            <p>Um eine Binärzahl in eine uns bekannte Dezimalzahl umzuwandeln, musst du einfach alle
+                                <span class="term" data-bs-toggle="tooltip"
+                                    title="Wert einer 1 an dieser Position (1, 2, 4...)">Stellenwerte</span> addieren,
+                                an denen eine <strong>1</strong> steht.
+                            </p>
                             <div class="card bg-light border-2 border-dark mb-4">
                                 <div class="card-body text-center">
                                     <h4 class="h6 text-uppercase text-muted mb-3">Übungs-Generator</h4>
@@ -678,7 +758,8 @@
                                                 class="btn btn-outline-secondary btn-lg w-100" id="btnNewB2D"><i
                                                     class="bi bi-arrow-repeat"></i></button></div>
                                         <div class="col-3 col-sm-auto"><button class="btn btn-info btn-lg w-100"
-                                                id="btnHelpB2D"><i class="bi bi-info-circle"></i></button></div>
+                                                id="btnHelpB2D"><i class="bi bi-info-circle"></i> Hinweis</button>
+                                        </div>
                                     </div>
                                     <div id="b2d-feedback" class="mt-3 fw-bold"></div>
                                 </div>
@@ -688,24 +769,39 @@
                             <div class="bg-light p-3 p-md-4 rounded-3">
                                 <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
                                 <div class="mb-4 quiz-group">
-                                    <p class="fw-bold mb-2">1. Was ist 0000 0011?</p>
-                                    <div class="btn-group w-100 d-flex">
-                                        <button class="btn btn-outline-primary w-100" data-correct="3"
-                                            data-val="2">2</button>
-                                        <button class="btn btn-outline-primary w-100" data-correct="3"
-                                            data-val="3">3</button>
-                                        <button class="btn btn-outline-primary w-100" data-correct="3"
-                                            data-val="11">11</button>
+                                    <p class="fw-bold mb-2">1. Welche Dezimalzahl entspricht der Binärzahl 0000 0011?
+                                    </p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="3" data-val="2"
+                                            data-exp="Das wäre 0000 0010.">2</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="3" data-val="3"
+                                            data-exp="Korrekt! 2 + 1 = 3.">3</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="3" data-val="11"
+                                            data-exp="Binärsystem, nicht Dezimal!">11</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group mb-4">
+                                    <p class="fw-bold mb-2">2. Ungerade Binärzahl?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="R" data-val="L"
+                                            data-exp="Nein, das linke Bit hat den Wert 128 (gerade).">Linkes Bit ist
+                                            1</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="R" data-val="R"
+                                            data-exp="Genau! Das rechte Bit hat Wert 1 (ungerade).">Rechtes
+                                            Bit ist 1</button>
                                     </div>
                                     <div class="feedback mt-2"></div>
                                 </div>
                                 <div class="quiz-group">
-                                    <p class="fw-bold mb-2">2. Ungerade Binärzahl?</p>
-                                    <div class="d-grid gap-2">
-                                        <button class="btn btn-outline-primary" data-correct="R" data-val="L"
-                                            data-exp="Links bestimmt Größe.">Linkes Bit ist 1</button>
-                                        <button class="btn btn-outline-primary" data-correct="R" data-val="R">Rechtes
-                                            Bit ist 1</button>
+                                    <p class="fw-bold mb-2">3. Maximalwert mit 8 Bits (11111111)?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="255" data-val="128"
+                                            data-exp="Das ist nur das höchste Bit (10000000).">128</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="255" data-val="255"
+                                            data-exp="Genau! Alle Bits auf 1 = 255.">255</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="255" data-val="256"
+                                            data-exp="Fast! 256 Kombinationen (0-255).">256</button>
                                     </div>
                                     <div class="feedback mt-2"></div>
                                 </div>
@@ -723,37 +819,106 @@
                     <div class="card mb-4">
                         <div class="card-body p-3 p-md-4">
                             <h2 class="h3 card-title mb-3">3. Dezimal → Binär</h2>
-                            <p>Stelle die Zahl binär dar.</p>
-                            <div class="text-center mb-4">
-                                <div class="d-inline-block p-3 rounded bg-white border border-2 border-dark mb-3">
-                                    <div class="small text-uppercase fw-bold">Ziel</div>
-                                    <div id="targetDecimal" class="display-3 fw-bold"
-                                        style="color: var(--c-secondary);">0</div>
+                            <p>Hier rechnen wir andersherum: Wir suchen die passende Kombination von Bits (Schaltern)
+                                für eine Zahl. <br>
+                                <strong>Tipp:</strong> Fange beim größten Bit (links) an und frage dich: "Passt der Wert
+                                noch rein?"
+                            </p>
+
+                            <!-- Restwert Erklärung -->
+                            <div class="card bg-light border-2 border-dark mb-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold mb-3"><i class="bi bi-calculator"></i> Methode: Restwert (Modulo)
+                                    </h5>
+                                    <p>Du kannst auch einfach die Zahl immer durch 2 teilen und den
+                                        <strong>Rest</strong> (0 oder 1)
+                                        aufschreiben. Beispiel für die Zahl <strong>13</strong>:
+                                    </p>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-borderless w-auto mx-auto mb-2">
+                                            <tbody>
+                                                <tr>
+                                                    <td>13 : 2 = 6</td>
+                                                    <td class="text-end fw-bold text-primary">Rest 1</td>
+                                                    <td class="text-muted small ps-3"> (LSB, rechts)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6 : 2 = 3</td>
+                                                    <td class="text-end fw-bold text-primary">Rest 0</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3 : 2 = 1</td>
+                                                    <td class="text-end fw-bold text-primary">Rest 1</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1 : 2 = 0</td>
+                                                    <td class="text-end fw-bold text-primary">Rest 1</td>
+                                                    <td class="text-muted small ps-3"> (MSB, links)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p class="mb-0 text-center bg-white border rounded p-2 d-inline-block mx-auto">
+                                        Lese die Reste von <strong>unten nach oben</strong>: <span
+                                            class="fw-bold font-monospace fs-5">1101</span>
+                                    </p>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center flex-wrap gap-2 mb-3" id="gameBits"></div>
-                            <p class="text-center mb-4">Wert: <span id="currentGameValue" class="fw-bold">0</span></p>
-                            <div class="text-center d-flex justify-content-center gap-2">
-                                <button class="btn btn-primary" id="btnCheckGame">Prüfen</button>
-                                <button class="btn btn-outline-secondary" id="btnNewGame"><i
-                                        class="bi bi-arrow-repeat"></i> Neu</button>
-                                <button class="btn btn-info" id="btnHelpGame"><i class="bi bi-info-circle"></i>
-                                    Weg</button>
+                            <!-- Übungs-Generator Box -->
+                            <div class="card bg-light border-2 border-dark mb-4">
+                                <div class="card-body text-center">
+                                    <h4 class="h6 text-uppercase text-muted mb-3">Übungs-Generator</h4>
+                                    <p>Stelle die geforderte Zahl binär ein:</p>
+
+                                    <div class="d-inline-block p-3 rounded bg-white border border-2 border-dark mb-3">
+                                        <div class="small text-uppercase fw-bold">Ziel</div>
+                                        <div id="targetDecimal" class="display-3 fw-bold"
+                                            style="color: var(--c-secondary);">0</div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-3" id="gameBits"></div>
+                                    <p class="text-center mb-4">Aktueller Wert: <span id="currentGameValue"
+                                            class="fw-bold fs-4">0</span></p>
+
+                                    <div class="text-center d-flex justify-content-center gap-2">
+                                        <button class="btn btn-primary" id="btnCheckGame">Prüfen</button>
+                                        <button class="btn btn-outline-secondary" id="btnNewGame"><i
+                                                class="bi bi-arrow-repeat"></i>
+                                            Neu</button>
+                                        <button class="btn btn-info" id="btnHelpGame"><i class="bi bi-info-circle"></i>
+                                            Hinweis</button>
+                                    </div>
+                                    <div id="game-feedback" class="mt-3 fw-bold text-center"></div>
+                                </div>
                             </div>
-                            <div id="game-feedback" class="mt-3 fw-bold text-center"></div>
 
                             <!-- Quiz 3 -->
                             <div class="bg-light p-3 p-md-4 rounded-3 mt-4">
                                 <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck</h4>
-                                <div class="mb-3 quiz-group">
-                                    <p class="fw-bold mb-2">Min. Bits für Zahl 20?</p>
-                                    <div class="btn-group w-100 d-flex">
+                                <div class="mb-4 quiz-group">
+                                    <p class="fw-bold mb-2">1. Wie viele Bits braucht man mindestens für die Darstellung
+                                        der Zahl 20?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
                                         <button class="btn btn-outline-primary w-100" data-correct="5"
                                             data-val="4">4</button>
-                                        <button class="btn btn-outline-primary w-100" data-correct="5"
-                                            data-val="5">5</button>
-                                        <button class="btn btn-outline-primary w-100" data-correct="5"
-                                            data-val="8">8</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="5" data-val="5"
+                                            data-exp="Richtig! 16 + 4 = 20 (10100).">5</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="5" data-val="8"
+                                            data-exp="Das reicht locker, aber 'mindestens'?">8</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group">
+                                    <p class="fw-bold mb-2">2. Wie schreibt man die Dezimalzahl 12 als Binärzahl?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="1100"
+                                            data-val="1010" data-exp="Das ist 8+2=10.">1010</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="1100"
+                                            data-val="1100" data-exp="Genau! 8+4=12.">1100</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="1100"
+                                            data-val="1110" data-exp="Das ist 8+4+2=14.">1110</button>
                                     </div>
                                     <div class="feedback mt-2"></div>
                                 </div>
@@ -763,7 +928,6 @@
                                         class="bi bi-arrow-right"></i></button>
                             </div>
                         </div>
-                    </div>
                 </section>
 
                 <section id="chapter4" class="chapter-section fade-in d-none">
@@ -771,6 +935,126 @@
                     <div class="card card-praxis mb-4">
                         <div class="card-body p-3 p-md-4">
                             <h2 class="h3 card-title mb-3">4. Praxis: IP-Adressen</h2>
+
+                            <!-- Bits & Bytes Erklärung -->
+                            <div class="card mb-4"
+                                style="background-color: #f8f9fa; border: 2px solid var(--c-secondary);">
+                                <div class="card-body">
+                                    <h5 class="fw-bold mb-3">📦 Bits und Bytes – Die Grundbausteine</h5>
+
+                                    <p><strong>Bit</strong> (Binary Digit) ist die kleinste Informationseinheit in der
+                                        Informatik. Ein Bit kann nur zwei Zustände haben: <code>0</code> oder
+                                        <code>1</code> – wie ein Lichtschalter (aus oder an).
+                                    </p>
+
+                                    <p><strong>Byte</strong> = 8 Bits zusammen. Warum 8? Das hat sich historisch als
+                                        praktische Größe etabliert, um z.B. einen Buchstaben zu speichern.</p>
+
+                                    <div class="row g-3 my-3">
+                                        <div class="col-md-6">
+                                            <div class="p-3 bg-white rounded border border-2 border-dark text-center">
+                                                <div class="fw-bold mb-2">1 Byte = 8 Bits</div>
+                                                <div class="font-monospace" style="letter-spacing: 2px;">
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                    <span class="badge bg-dark">0</span>
+                                                </div>
+                                                <div class="small text-muted mt-2">= 0 (Minimum)</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="p-3 rounded border border-2 border-dark text-center"
+                                                style="background-color: var(--c-primary);">
+                                                <div class="fw-bold mb-2">1 Byte = 8 Bits</div>
+                                                <div class="font-monospace" style="letter-spacing: 2px;">
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                    <span class="badge bg-dark">1</span>
+                                                </div>
+                                                <div class="small mt-2">= 255 (Maximum)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-2"><strong>Fachbegriffe:</strong></p>
+                                    <ul class="mb-0 small">
+                                        <li><strong>MSB</strong> (Most Significant Bit) = das linke Bit, höchster
+                                            Stellenwert (2⁷ = 128)</li>
+                                        <li><strong>LSB</strong> (Least Significant Bit) = das rechte Bit, niedrigster
+                                            Stellenwert (2⁰ = 1)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- IP-Adressen Erklärung -->
+                            <div class="card mb-4" style="border: 2px solid var(--c-accent);">
+                                <div class="card-body">
+                                    <h5 class="fw-bold mb-3">🌐 Was ist eine IP-Adresse?</h5>
+
+                                    <p>Eine <span class="term" data-bs-toggle="tooltip"
+                                            title="Internet Protocol Version 4 (32 Bit)">IPv4-Adresse</span> (Internet
+                                        Protocol) ist wie eine Postanschrift
+                                        für Geräte im Netzwerk. Jedes Gerät braucht eine eindeutige Adresse, damit
+                                        Datenpakete ankommen.</p>
+
+                                    <p><strong>IPv4-Aufbau:</strong> 4 Zahlen (Oktette), getrennt durch Punkte. Jedes
+                                        Oktett ist 1 Byte (8 Bits) und kann Werte von 0-255 haben.</p>
+
+                                    <div class="bg-light p-3 rounded mb-3">
+                                        <div class="text-center mb-2 fw-bold">Beispiel: 192.168.178.1</div>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-bordered text-center mb-0"
+                                                style="font-size: 0.85rem;">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Oktett 1</th>
+                                                        <th>Oktett 2</th>
+                                                        <th>Oktett 3</th>
+                                                        <th>Oktett 4</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>192</strong></td>
+                                                        <td><strong>168</strong></td>
+                                                        <td><strong>178</strong></td>
+                                                        <td><strong>1</strong></td>
+                                                    </tr>
+                                                    <tr class="font-monospace small">
+                                                        <td>11000000</td>
+                                                        <td>10101000</td>
+                                                        <td>10110010</td>
+                                                        <td>00000001</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-0 small text-muted"><strong>192.168.x.x</strong> ist ein privater
+                                        Adressbereich – typisch für Heimnetzwerke (z.B. Fritz!Box, Router).</p>
+                                </div>
+                            </div>
+
+                            <!-- Aufgaben-Einleitung -->
+                            <div class="alert mb-4"
+                                style="background-color: var(--c-primary); border: 3px solid var(--c-secondary);">
+                                <h5 class="fw-bold mb-2">🎯 Praxisaufgabe: IP-Adresse einstellen</h5>
+                                <p class="mb-0">Nutze die Bit-Schalter, um das letzte Oktett der IP-Adresse auf den
+                                    geforderten Dezimalwert einzustellen. Klicke auf die Bits (0/1), um den Wert zu
+                                    ändern.</p>
+                            </div>
+
                             <div class="network-box p-3 p-md-4 mb-4">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <div><span class="status-light bg-danger" id="networkStatusLight"></span><span
@@ -778,15 +1062,17 @@
                                     <div class="small opacity-50">v2.0</div>
                                 </div>
                                 <div class="text-center my-4">
-                                    <div class="fs-5 mb-2">PING TARGET:</div>
+                                    <div class="fs-5 mb-2">ZIEL-IP:</div>
                                     <div class="fs-3 font-monospace d-flex flex-wrap justify-content-center gap-1">
                                         <span class="ip-segment">192</span>.<span class="ip-segment">168</span>.<span
                                             class="ip-segment">178</span>.<span class="ip-segment target"
                                             id="targetIpOctet">?</span>
                                     </div>
                                 </div>
-                                <p class="text-center mb-0 small">Aufgabe: Stelle das letzte Oktett auf <strong
-                                        id="requiredIpValue" style="color: var(--c-primary);"></strong> ein.</p>
+                                <div class="text-center p-3 rounded">
+                                    <p class="mb-0 fw-bold">👉 Stelle das letzte Oktett auf <span id="requiredIpValue"
+                                            class="fs-4" style="color: var(--c-accent);"></span> ein!</p>
+                                </div>
                             </div>
                             <div class="d-flex justify-content-center flex-wrap gap-2 mb-3" id="ipBits"></div>
                             <p class="text-center">Eingestellt: <span id="currentIpValue" class="fw-bold fs-4">0</span>
@@ -796,9 +1082,41 @@
                             <div class="text-center d-flex justify-content-center gap-2">
                                 <button class="btn btn-lg btn-success" id="btnCheckIp">Verbinden</button>
                                 <button class="btn btn-lg btn-outline-secondary" id="btnNewIp">Neu</button>
-                                <button class="btn btn-lg btn-info" id="btnHelpIp">ℹ️ Weg</button>
+                                <button class="btn btn-lg btn-info" id="btnHelpIp">ℹ️ Hinweis</button>
                             </div>
                             <div id="ip-feedback" class="mt-3 fw-bold text-center"></div>
+
+                            <!-- Quiz 4 -->
+                            <div class="bg-light p-3 p-md-4 rounded-3 border border-secondary mt-5">
+                                <h4 class="h6 text-uppercase mb-3 fw-bold">Wissenscheck: IPv4</h4>
+                                <div class="mb-4 quiz-group">
+                                    <p class="fw-bold mb-2">1. Wie viele Bytes hat eine IPv4-Adresse?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="4" data-val="2"
+                                            data-exp="Zu wenig. IPv4 hat 32 Bits.">2
+                                            Bytes</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="4" data-val="4"
+                                            data-exp="Richtig! 4 Oktette à 1 Byte.">4
+                                            Bytes</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="4" data-val="8"
+                                            data-exp="Das wäre IPv6 (ca.).">8
+                                            Bytes</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group">
+                                    <p class="fw-bold mb-2">2. Was ist der theoretisch höchste Wert pro Block?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="255" data-val="100"
+                                            data-exp="Viel zu wenig.">100</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="255" data-val="255"
+                                            data-exp="Stimmt! Ein Byte (0-255).">255</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="255" data-val="999"
+                                            data-exp="Maximal 8 Bits (11111111).">999</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -812,7 +1130,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold">Lösungsweg</h5><button type="button" class="btn-close"
+                    <h5 class="modal-title fw-bold">Hinweis</h5><button type="button" class="btn-close"
                         data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body bg-light font-monospace" id="infoContent"></div>
@@ -822,18 +1140,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="certModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-center p-4">
-                <div class="modal-body">
-                    <div class="display-1 mb-3">🏆</div>
-                    <h2 class="fw-bold mb-3">Glückwunsch!</h2>
-                    <p class="lead text-muted mb-4">Du bist bereit für die Netzwerktechnik.</p>
-                    <button class="btn btn-success btn-lg px-5" onclick="location.reload()">Neustarten</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -846,19 +1153,11 @@
             let b2dTarget = 0;
             let gameTarget = 0;
             let ipTarget = 0;
-            let totalProgress = 0;
+
             const visualBits = [0, 0, 0, 0, 0, 0, 0, 0];
 
             // --- UI Updating ---
-            function updateProgressBar() {
-                totalProgress += 2;
-                if (totalProgress > 100) totalProgress = 100;
-                document.getElementById('progressBar').style.width = totalProgress + '%';
 
-                if (totalProgress >= 100) {
-                    setTimeout(() => new bootstrap.Modal(document.getElementById('certModal')).show(), 1000);
-                }
-            }
 
             function showModal(content) {
                 document.getElementById('infoContent').innerHTML = content;
@@ -900,9 +1199,11 @@
                             group.querySelectorAll('button').forEach(b => b.className = 'btn btn-outline-primary w-100');
 
                             if (val === correct) {
-                                feedbackEl.innerHTML = '<div class="alert alert-success py-2 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Richtig!</div>';
+                                let successMsg = '<div class="alert alert-success py-2 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Richtig!';
+                                if (exp) successMsg += ' ' + exp;
+                                successMsg += '</div>';
+                                feedbackEl.innerHTML = successMsg;
                                 btn.className = 'btn btn-success w-100';
-                                updateProgressBar();
                             } else {
                                 feedbackEl.innerHTML = `<div class="alert alert-danger py-2 mb-0 fw-bold"><i class="bi bi-x-circle-fill me-2"></i>Falsch. ${exp}</div>`;
                                 btn.className = 'btn btn-danger w-100';
@@ -1047,7 +1348,20 @@
             function initB2D() {
                 b2dTarget = Math.floor(Math.random() * 255);
                 const binStr = b2dTarget.toString(2).padStart(8, '0');
-                document.getElementById('b2d-question').innerText = binStr.slice(0, 4) + ' ' + binStr.slice(4);
+
+                // Visual Rendering with Place Values
+                let html = '<div class="d-flex justify-content-center gap-1 gap-md-2">';
+                for (let i = 0; i < 8; i++) {
+                    const val = Math.pow(2, 7 - i);
+                    html += `
+                        <div class="text-center">
+                            <div class="small text-muted b2d-hint d-none opacity-50" style="font-size: 0.4em; line-height: 1;">${val}</div>
+                            <div class="font-monospace fw-bold">${binStr[i]}</div>
+                        </div>`;
+                }
+                html += '</div>';
+
+                document.getElementById('b2d-question').innerHTML = html;
                 document.getElementById('b2d-input').value = '';
                 document.getElementById('b2d-feedback').innerHTML = '';
             }
@@ -1114,7 +1428,7 @@
                         });
                     });
 
-                    document.getElementById('btnReset').addEventListener('click', () => location.reload());
+
 
                     // B2D
                     document.getElementById('btnCheckB2D').addEventListener('click', () => {
@@ -1122,23 +1436,12 @@
                         const fb = document.getElementById('b2d-feedback');
                         if (input === b2dTarget) {
                             fb.innerHTML = '<span class="text-success"><i class="bi bi-check-lg"></i> Richtig!</span>';
-                            updateProgressBar();
+
                         } else fb.innerHTML = '<span class="text-danger"><i class="bi bi-x-lg"></i> Falsch.</span>';
                     });
                     document.getElementById('btnNewB2D').addEventListener('click', initB2D);
                     document.getElementById('btnHelpB2D').addEventListener('click', () => {
-                        let html = "<p>Addiere die Stellenwerte, wo eine <strong>1</strong> steht:</p><ul class='list-group'>";
-                        let sum = 0;
-                        const binStr = b2dTarget.toString(2).padStart(8, '0');
-                        for (let i = 0; i < 8; i++) {
-                            if (binStr[i] === '1') {
-                                const val = Math.pow(2, 7 - i);
-                                html += `<li class="list-group-item d-flex justify-content-between">Bit für ${val} ist 1 <span class="badge bg-primary text-dark">+${val}</span></li>`;
-                                sum += val;
-                            }
-                        }
-                        html += `</ul><div class="mt-3 text-end fw-bold">Summe: ${sum}</div>`;
-                        showModal(html);
+                        document.querySelectorAll('.b2d-hint').forEach(el => el.classList.toggle('d-none'));
                     });
 
                     // Game D2B
@@ -1147,7 +1450,7 @@
                         const fb = document.getElementById('game-feedback');
                         if (current === gameTarget) {
                             fb.innerHTML = '<span class="text-success fs-4"><i class="bi bi-check-lg"></i> Perfekt!</span>';
-                            updateProgressBar();
+
                         } else fb.innerHTML = `<span class="text-danger">Diff: ${gameTarget - current}</span>`;
                     });
                     document.getElementById('btnNewGame').addEventListener('click', initGame);
@@ -1164,7 +1467,7 @@
                             document.getElementById('networkStatusLight').className = 'status-light bg-success';
                             document.getElementById('statusText').innerText = "ONLINE";
                             document.getElementById('statusText').className = "text-success fw-bold";
-                            updateProgressBar();
+
                         } else fb.innerHTML = '<span class="text-danger">Verbindung fehlgeschlagen.</span>';
                     });
                     document.getElementById('btnNewIp').addEventListener('click', initIpGame);
