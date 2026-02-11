@@ -341,6 +341,10 @@
             font-size: 0.9rem;
         }
 
+        .quiz-group .btn {
+            text-transform: none;
+        }
+
         .btn-primary {
             background-color: var(--c-primary);
             border-color: var(--c-secondary);
@@ -697,6 +701,18 @@
                                     </div>
                                     <div class="feedback mt-2"></div>
                                 </div>
+                                <div class="quiz-group mt-4">
+                                    <p class="fw-bold mb-2">3. Warum arbeiten Computer intern mit dem Binärsystem?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="an/aus"
+                                            data-val="10 Finger" data-exp="Das erklaert unser Dezimalsystem.">10 Finger</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="an/aus"
+                                            data-val="an/aus">Transistoren haben zwei stabile Zustände (an/aus)</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="an/aus"
+                                            data-val="schneller" data-exp="Schneller ist kein Grund fuer Basis 2.">Weil es schneller ist</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
                             </div>
                             <div class="d-flex justify-content-end mt-4">
                                 <button class="btn btn-primary" onclick="app.showChapter('chapter1')">Weiter <i
@@ -764,7 +780,7 @@
                                         <button class="btn btn-outline-primary w-100" data-correct="1" data-val="0"
                                             data-exp="Das ist 2 hoch 0!">0</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="1" data-val="1"
-                                            data-exp="Richtig! 2 hoch 0 = 1.">1</button>
+                                            data-exp="2 hoch 0 = 1.">1</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="1" data-val="2"
                                             data-exp="Das wäre 2 hoch 1 (2. Stelle).">2</button>
                                     </div>
@@ -951,7 +967,7 @@
                                         <button class="btn btn-outline-primary w-100" data-correct="5"
                                             data-val="4">4</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="5" data-val="5"
-                                            data-exp="Richtig! 16 + 4 = 20 (10100).">5</button>
+                                            data-exp="16 + 4 = 20 (10100).">5</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="5" data-val="8"
                                             data-exp="Das reicht locker, aber 'mindestens'?">8</button>
                                     </div>
@@ -1053,7 +1069,8 @@
                                         für Geräte im Netzwerk. Jedes Gerät braucht eine eindeutige Adresse, damit
                                         Datenpakete ankommen.</p>
 
-                                    <p><strong>IPv4-Aufbau:</strong> 4 Zahlen (Oktette), getrennt durch Punkte. Jedes
+                                    <p><strong>IPv4-Aufbau:</strong> 4 Zahlen (<span class="term" data-bs-toggle="tooltip"
+                                            title="Ein Oktett ist 1 Byte = 8 Bit">Oktette</span>), getrennt durch Punkte. Jedes
                                         Oktett ist 1 Byte (8 Bits) und kann Werte von 0-255 haben.</p>
 
                                     <div class="bg-light p-3 rounded mb-3">
@@ -1140,7 +1157,7 @@
                                             data-exp="Zu wenig. IPv4 hat 32 Bits.">2
                                             Bytes</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="4" data-val="4"
-                                            data-exp="Richtig! 4 Oktette à 1 Byte.">4
+                                            data-exp="4 Oktette à 1 Byte.">4
                                             Bytes</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="4" data-val="8"
                                             data-exp="Das wäre IPv6 (ca.).">8
@@ -1157,6 +1174,18 @@
                                             data-exp="Stimmt! Ein Byte (0-255).">255</button>
                                         <button class="btn btn-outline-primary w-100" data-correct="255" data-val="999"
                                             data-exp="Maximal 8 Bits (11111111).">999</button>
+                                    </div>
+                                    <div class="feedback mt-2"></div>
+                                </div>
+                                <div class="quiz-group mt-4">
+                                    <p class="fw-bold mb-2">3. Was ist ein Oktett?</p>
+                                    <div class="d-grid gap-2 d-md-flex">
+                                        <button class="btn btn-outline-primary w-100" data-correct="8 Bit" data-val="4 Bit"
+                                            data-exp="Zu wenig. Ein Halbbyte waere 4 Bit.">4 Bit</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="8 Bit" data-val="8 Bit"
+                                            data-exp="Ein Oktett ist 1 Byte = 8 Bit.">8 Bit</button>
+                                        <button class="btn btn-outline-primary w-100" data-correct="8 Bit" data-val="16 Bit"
+                                            data-exp="Zu viel. 16 Bit waeren 2 Byte.">16 Bit</button>
                                     </div>
                                     <div class="feedback mt-2"></div>
                                 </div>
@@ -1515,13 +1544,14 @@
                             const btn = e.target;
                             const correct = btn.getAttribute('data-correct');
                             const val = btn.getAttribute('data-val');
+                            const norm = (value) => (value || '').trim().toLowerCase();
                             const exp = btn.getAttribute('data-exp') || '';
                             const feedbackEl = group.querySelector('.feedback');
 
                             // UI Reset
                             group.querySelectorAll('button').forEach(b => b.className = 'btn btn-outline-primary w-100');
 
-                            if (val === correct) {
+                            if (norm(val) === norm(correct)) {
                                 feedbackEl.innerHTML = `<div class="alert alert-success py-2 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Richtig! ${exp}</div>`;
                                 btn.className = 'btn btn-success w-100';
                             } else {
